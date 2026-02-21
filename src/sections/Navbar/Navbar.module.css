@@ -1,0 +1,97 @@
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(246,246,246,0.72);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+}
+
+.inner {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s4);
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    letter-spacing: 0.6px;
+}
+
+.logoMark { font-size: 18px; }
+.logoText { font-size: 14px; }
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.link {
+    font-size: 13px;
+    color: rgba(0,0,0,0.72);
+    font-weight: 700;
+}
+.link:hover { color: rgba(0,0,0,0.95); }
+
+.actions { display: flex; align-items: center; gap: 12px; }
+
+.lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.7);
+}
+.langBtn, .langBtnMuted {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 12px;
+}
+.langBtnMuted { opacity: 0.45; }
+.dot { width: 4px; height: 4px; background: rgba(0,0,0,0.25); border-radius: 50%; }
+
+.burger {
+    display: none;
+    width: 44px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.8);
+    cursor: pointer;
+}
+.burger span {
+    display: block;
+    height: 2px;
+    width: 18px;
+    margin: 0 auto;
+    background: rgba(0,0,0,0.8);
+}
+.burger span + span { margin-top: 6px; }
+
+@media (max-width: 900px) {
+    .burger { display: inline-grid; place-items: center; }
+    .nav {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 64px;
+        background: rgba(246,246,246,0.95);
+        border-bottom: 1px solid var(--border);
+        padding: 14px var(--gutter);
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .navOpen { display: flex; }
+}

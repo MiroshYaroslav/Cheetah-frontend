@@ -1,0 +1,48 @@
+.top {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: var(--s6);
+    align-items: start;
+}
+
+.title {
+    font-size: clamp(40px, 5vw, 70px);
+    letter-spacing: 0.8px;
+    line-height: 1.0;
+}
+
+.text { margin-top: var(--s3); max-width: 520px; }
+.btn { margin-top: var(--s4); }
+
+.right {
+    justify-self: end;
+    width: min(360px, 100%);
+    border-radius: var(--radius);
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 18px;
+}
+
+.stat { display: flex; justify-content: space-between; padding: 12px 0; }
+.stat + .stat { border-top: 1px solid var(--border); }
+.statLabel { color: rgba(0,0,0,0.6); font-weight: 800; font-size: 13px; }
+.statValue { font-weight: 900; font-size: 13px; }
+
+.bikeWrap {
+    margin-top: var(--s6);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.00));
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: var(--s5);
+    display: grid;
+    place-items: center;
+}
+
+.bike { width: 100%; height: auto; object-fit: contain; filter: drop-shadow(0 18px 30px rgba(0,0,0,0.12)); }
+
+@media (max-width: 900px) {
+    .top { grid-template-columns: 1fr; }
+    .right { justify-self: start; }
+}

@@ -1,0 +1,17 @@
+.wrap { margin-bottom: var(--s5); }
+.center { text-align: center; }
+.left { text-align: left; }
+
+.title {
+    font-size: clamp(34px, 4vw, 54px);
+    letter-spacing: 0.5px;
+    line-height: 1.05;
+}
+
+.subtitle {
+    margin-top: var(--s2);
+    max-width: 740px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.left .subtitle { margin-left: 0; margin-right: 0; }
