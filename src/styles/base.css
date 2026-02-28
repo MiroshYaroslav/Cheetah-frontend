@@ -9,7 +9,7 @@
     --radius: 18px;
 
     /* Container */
-    --container-max: 1120px;
+    --container-max: 1300px;
     --gutter: clamp(16px, 4vw, 32px);
 
     /* Spacing */
@@ -22,9 +22,7 @@
     --s7: 72px;
 }
 
-@media (min-width: 1440px) {
-    :root { --container-max: 1240px; }
-}
+
 
 * { box-sizing: border-box; }
 html, body { height: 100%; }
@@ -49,8 +47,6 @@ p { line-height: 1.6; color: var(--muted); }
     width: 100%;
     max-width: var(--container-max);
     margin: 0 auto;
-    padding-left: var(--gutter);
-    padding-right: var(--gutter);
 }
 
 .section {
