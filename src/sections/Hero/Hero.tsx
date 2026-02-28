@@ -37,7 +37,6 @@ export default function Hero() {
                     preload="metadata"
                 >
                     <source src="/videos/hero.mp4" type="video/mp4" />
-                    <source src="/videos/hero.webm" type="video/webm" />
                 </video>
 
                 <div className={styles.overlay} />
