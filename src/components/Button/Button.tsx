@@ -1,13 +1,14 @@
 import styles from "./Button.module.css";
+import React from "react";
 
 type Props = {
     children: React.ReactNode;
     href?: string;
     onClick?: () => void;
-    variant?: "primary" | "secondary" | "ghost";
-    size?: "sm" | "md" | "lg";
+    variant?: "primary" | "secondary";
     className?: string;
     type?: "button" | "submit";
+    disabled?: boolean;
 };
 
 export default function Button({
@@ -15,22 +16,22 @@ export default function Button({
                                    href,
                                    onClick,
                                    variant = "primary",
-                                   size = "md",
                                    className = "",
                                    type = "button",
+                                   disabled = false,
                                }: Props) {
-    const cls = `${styles.btn} ${styles[variant]} ${styles[size]} ${className}`;
+    const cls = `${styles.btn} ${styles[variant]} ${className} ${disabled ? styles.disabled : ""}`;
 
     if (href) {
         return (
-            <a className={cls} href={href}>
+            <a className={cls} href={href} aria-disabled={disabled}>
                 {children}
             </a>
         );
     }
 
     return (
-        <button className={cls} type={type} onClick={onClick}>
+        <button className={cls} type={type} onClick={onClick} disabled={disabled}>
             {children}
         </button>
     );
