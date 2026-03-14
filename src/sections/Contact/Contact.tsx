@@ -79,13 +79,13 @@ export default function Contact() {
                             />
                         </label>
 
-                        <Button type="submit" variant="primary" size="lg" className={styles.send}>
+                        <Button type="submit" variant="primary" className={styles.send}>
                             Send
                         </Button>
                     </form>
 
                     <div className={styles.imageWrap}>
-                        <img src="/images/contact.jpg" alt="Contact" loading="lazy" />
+                        <img src="/" alt="Contact" loading="lazy" />
                     </div>
                 </div>
             </Container>

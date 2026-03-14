@@ -1,17 +1,52 @@
-.wrap { margin-bottom: var(--s5); }
+.wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s1);
+    padding: 60px 0;
+}
 .center { text-align: center; }
 .left { text-align: left; }
 
 .title {
-    font-size: clamp(34px, 4vw, 54px);
-    letter-spacing: 0.5px;
-    line-height: 1.05;
+    font-family: "Roboto Flex", sans-serif;
+    font-size: 96px;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #121212;
+
+    font-variation-settings:
+            "opsz" 96,
+            "wght" 600,
+            "GRAD" 150,
+            "XOPQ" 96,
+            "XTRA" 468,
+            "YOPQ" 79,
+            "YTAS" 750,
+            "YTDE" 203,
+            "YTFI" 738,
+            "YTLC" 514,
+            "YTUC" 712,
+            "slnt" 0,
+            "wdth" 151;
 }
 
 .subtitle {
-    margin-top: var(--s2);
-    max-width: 740px;
-    margin-left: auto;
-    margin-right: auto;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    align-self: stretch;
+
+    overflow: hidden;
+    color: rgba(18, 18, 18, 0.60);
+    text-align: center;
+    text-overflow: ellipsis;
+
+    /* body/lg */
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 27px */
 }
 .left .subtitle { margin-left: 0; margin-right: 0; }

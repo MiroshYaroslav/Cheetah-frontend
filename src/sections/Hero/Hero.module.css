@@ -59,7 +59,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: 16px;
+    gap: var(--s3);
     padding: var(--s4) 0;
 }
 
@@ -67,7 +67,7 @@
     display: flex;
     align-items: flex-start;
     align-content: flex-start;
-    gap: 8px 8px;
+    gap: var(--s1) var(--s1);
     flex-wrap: wrap;
 }
 
@@ -136,7 +136,6 @@
 }
 
 .heroBtn {
-    width: 345px;
     color: #121212;
 }
 
@@ -144,11 +143,11 @@
     display: flex;
     min-width: 200px;
     max-width: 265px;
-    padding: 24px;
+    padding: var(--s4);
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: 12px;
+    gap: var(--s2);
     flex: 1 0 0;
 }
 

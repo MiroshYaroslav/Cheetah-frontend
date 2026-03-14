@@ -10,10 +10,9 @@ export default function About() {
                     title="ABOUT US"
                     subtitle="We are a team that manufactures motorcycles according to your wishes."
                 />
-                <div className={styles.textBox}>
+                <div className="textBox">
                     <p>
-                        We build electric motorcycles with an emphasis on reliability, control, and custom configuration.
-                        Тут ти потім підставиш реальний текст про бренд, команду і технологію.
+                        The main uniqueness of our company is our own innovative frame, created using special technology. It provides increased rigidity, lightness of construction, and maximum controllability, making each of our motorcycles stable and reliable at any speed.
                     </p>
                 </div>
             </Container>

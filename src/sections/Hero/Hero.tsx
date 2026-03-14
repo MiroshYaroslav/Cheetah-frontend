@@ -63,11 +63,11 @@ export default function Hero() {
                         <div className={styles.features}>
                             <div className={styles.feature}>
                                 <div className={styles.featureTitle}>Charge</div>
-                                <div className={styles.featureText}>Battery capacity is enough for 60+ km.</div>
+                                <div className={styles.featureText}>The battery capacity is sufficient for active driving</div>
                             </div>
                             <div className={styles.feature}>
                                 <div className={styles.featureTitle}>Quick and easy</div>
-                                <div className={styles.featureText}>Easy to drive.</div>
+                                <div className={styles.featureText}>Easy to drive</div>
                             </div>
                         </div>
 
