@@ -23,7 +23,6 @@
 }
 
 
-
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 html { scroll-behavior: smooth; }
@@ -53,7 +52,6 @@ p { line-height: 1.6; color: var(--muted); }
     flex: 1 0 0;
 }
 
-/* часто потрібні утиліти */
 .container {
     width: 100%;
     max-width: var(--container-max);

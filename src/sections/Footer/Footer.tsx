@@ -7,7 +7,9 @@ export default function Footer() {
         <footer className={styles.footer}>
             <Container className={styles.inner}>
                 <div className={styles.brand}>
-                    <div className={styles.logo}>🦁</div>
+                    <div className={styles.logo}>
+                        <img src="/logo.svg" alt="Cheetah logo" className={styles.logoImg} />
+                    </div>
                     <div>
                         <div className={styles.name}>CHEETAH</div>
                         <div className={styles.muted}>Electric motorcycles</div>

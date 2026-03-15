@@ -41,12 +41,55 @@
     text-align: center;
     text-overflow: ellipsis;
 
-    /* body/lg */
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-    "Segoe UI", Roboto, Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+        "Segoe UI", Roboto, Arial, sans-serif;
     font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: 150%; /* 27px */
 }
 .left .subtitle { margin-left: 0; margin-right: 0; }
+
+.row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.textCol {
+    flex: 1;
+}
+
+.collapseBtn {
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+
+    transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.collapseBtn:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+.collapseBtn:active {
+    transform: translateY(0px);
+}
+
+.collapseIcon {
+    width: 26px;
+    height: 26px;
+    display: block;
+    transition: transform 220ms ease;
+}
+
+.isCollapsed .collapseIcon {
+    transform: rotate(180deg);
+}
+

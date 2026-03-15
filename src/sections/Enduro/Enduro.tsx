@@ -1,21 +1,10 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
-import { enduroStats } from "../../data/siteData";
+import {enduroStats, images} from "../../data/siteData";
 import styles from "./Enduro.module.css";
 
-type Slide = { src: string; alt: string };
-
 export default function Enduro() {
-    const images: Slide[] = useMemo(
-        () => [
-            { src: "/enduro-1.png", alt: "Enduro view 1" },
-            { src: "/enduro-1.png", alt: "Enduro view 2" },
-            { src: "/enduro-1.png", alt: "Enduro view 3" },
-        ],
-        []
-    );
-
     const [index, setIndex] = useState(0);
 
     const isFirst = index === 0;

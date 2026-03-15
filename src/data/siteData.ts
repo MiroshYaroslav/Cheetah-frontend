@@ -1,4 +1,10 @@
-import type { FAQItem, NavLink, PartItem, StatItem, Testimonial } from "./types";
+import type { FAQItem, NavLink, PartItem, StatItem, Testimonial, Slide } from "./types";
+
+export const images: Slide[] = [
+    { src: "/enduro-1.png", alt: "Enduro view 1" },
+    { src: "/enduro-1.png", alt: "Enduro view 2" },
+    { src: "/enduro-1.png", alt: "Enduro view 3" },
+];
 
 export const navLinks: NavLink[] = [
     { label: "Model", href: "#model" },
@@ -17,23 +23,41 @@ export const enduroStats: StatItem[] = [
 
 export const parts: PartItem[] = [
     {
-        title: "Battery",
-        subtitle: "MAXION Li-ion 1kWh / 48V",
-        price: "6 000€",
-        image: "/images/parts/battery.png",
-        badge: "Home & Hardware",
+        id: "battery",
+        slug: "battery",
+        title: "BATTERY",
+        subtitle: "MAXION MXBM-YTX14-BS GET",
+        price: "800€",
+        image: "/Battery.png",
+        inStock: false,
     },
     {
-        title: "Plastic",
-        subtitle: "Car plastic set",
+        id: "plastic",
+        slug: "plastic",
+        title: "PLASTIC",
+        subtitle: "Complete set",
         price: "5 000€",
-        image: "/images/parts/plastic.png",
+        image: "/Plastic.png",
+        inStock: true,
+        colors: ["#121212", "#8A8A8A", "#F6F6F6"],
     },
     {
-        title: "Charger",
+        id: "charger",
+        slug: "charger",
+        title: "CHARGER",
         subtitle: "Fast charger",
         price: "5 000€",
-        image: "/images/parts/charger.png",
+        image: "/Charger.png",
+        inStock: true,
+    },
+    {
+        id: "tires",
+        slug: "tires",
+        title: "Tires",
+        subtitle: "Summer",
+        price: "2 000€",
+        image: "/Tires.png",
+        inStock: true,
     },
 ];
 
@@ -64,3 +88,4 @@ export const testimonials: Testimonial[] = [
         text: "Узгоджуємо дрібні зміни, кольори, компоненти та контролюємо якість на кожному етапі.",
     },
 ];
+
