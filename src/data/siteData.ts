@@ -59,6 +59,15 @@ export const parts: PartItem[] = [
         image: "/Tires.png",
         inStock: true,
     },
+    {
+        id: "tires2",
+        slug: "tires2",
+        title: "Tires",
+        subtitle: "Off-road",
+        price: "2 500€",
+        image: "/Tires2.png",
+        inStock: true,
+    },
 ];
 
 export const faqs: FAQItem[] = [
