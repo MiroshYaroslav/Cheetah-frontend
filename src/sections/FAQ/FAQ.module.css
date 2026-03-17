@@ -1,1 +1,80 @@
-.wrap { max-width: 860px; }
+.section {
+    padding: 60px 0 40px;
+}
+
+.faqList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 16px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(18, 18, 18, 0.12);
+}
+
+.header {
+    display: flex;
+    padding: 24px 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.q {
+    color: #121212;
+    flex: 1 1 auto;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.iconBtn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin: -8px;
+    display: grid;
+    place-items: center;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.iconBtn.open {
+    transform: rotate(180deg);
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease-out;
+}
+
+.bodyOpen {
+    grid-template-rows: 1fr;
+}
+
+.inner {
+    overflow: hidden;
+    color: #121212;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    padding-bottom: 0;
+    transition: padding 0.3s ease-out;
+}
+
+.bodyOpen .inner {
+    padding-bottom: 24px;
+}

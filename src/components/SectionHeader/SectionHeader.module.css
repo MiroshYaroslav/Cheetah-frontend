@@ -5,7 +5,10 @@
     padding: 60px 0;
 }
 .center { text-align: center; }
-.left { text-align: left; }
+.left {
+    text-align: left;
+    padding: 0;
+}
 
 .title {
     font-family: "Roboto Flex", sans-serif;
