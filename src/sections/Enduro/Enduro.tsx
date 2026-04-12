@@ -33,8 +33,8 @@ export default function Enduro() {
                             <Button href="#contact" variant="primary" className={styles.btn}>
                                 <span className={styles.text_btn}>Configurator</span>
                                 <span className={styles.icon}>
-                  <img src="/arrow.svg" alt="arrow" />
-                </span>
+                                    <img src="/arrow.svg" alt="arrow" />
+                                </span>
                             </Button>
                         </div>
 
