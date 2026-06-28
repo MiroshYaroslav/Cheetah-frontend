@@ -2,6 +2,7 @@ import { useState } from "react";
 import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
 import styles from "./Contact.module.css";
+import SectionHeader from "../../components/SectionHeader/SectionHeader.tsx";
 
 type FormState = {
     fullName: string;
@@ -24,21 +25,20 @@ export default function Contact() {
 
     function onSubmit(e: React.FormEvent) {
         e.preventDefault();
-        // тут потім зробиш API/telegram/email
         console.log("Contact form:", form);
         alert("Sent! (demo)");
         setForm({ fullName: "", phone: "", email: "", proposal: "" });
     }
 
     return (
-        <section id="contact" className={`section ${styles.section}`}>
+        <section id="contact" className={styles.section}>
             <Container>
-                <h2 className={styles.title}>GET IN TOUCH</h2>
+                <div className={styles.wrapper}>
+                    <SectionHeader title="Get in Touch" align="left" />
 
-                <div className={styles.grid}>
                     <form className={styles.form} onSubmit={onSubmit}>
-                        <label className={styles.label}>
-                            Full name
+                        <label className={styles.labelWrap}>
+                            <span className={styles.labelText}>Full name</span>
                             <input
                                 className={styles.input}
                                 value={form.fullName}
@@ -47,8 +47,8 @@ export default function Contact() {
                             />
                         </label>
 
-                        <label className={styles.label}>
-                            Phone
+                        <label className={styles.labelWrap}>
+                            <span className={styles.labelText}>Phone</span>
                             <input
                                 className={styles.input}
                                 value={form.phone}
@@ -57,8 +57,8 @@ export default function Contact() {
                             />
                         </label>
 
-                        <label className={styles.label}>
-                            Email
+                        <label className={styles.labelWrap}>
+                            <span className={styles.labelText}>Email</span>
                             <input
                                 className={styles.input}
                                 value={form.email}
@@ -68,25 +68,20 @@ export default function Contact() {
                             />
                         </label>
 
-                        <label className={styles.label}>
-                            Proposal
-                            <textarea
-                                className={styles.textarea}
+                        <label className={styles.labelWrap}>
+                            <span className={styles.labelText}>Proposal</span>
+                            <input
+                                className={styles.input}
                                 value={form.proposal}
                                 onChange={(e) => onChange("proposal", e.target.value)}
                                 placeholder="Proposal"
-                                rows={4}
                             />
                         </label>
 
-                        <Button type="submit" variant="primary" className={styles.send}>
+                        <Button type="submit" variant="primary" className={styles.sendBtn}>
                             Send
                         </Button>
                     </form>
-
-                    <div className={styles.imageWrap}>
-                        <img src="/" alt="Contact" loading="lazy" />
-                    </div>
                 </div>
             </Container>
         </section>
