@@ -10,7 +10,7 @@
 .embla {
     overflow: hidden;
     width: 100%;
-    --offset: max(var(--gutter), calc((100vw - var(--container-max)) / 2));
+    --offset: var(--gutter);
 }
 
 .embla__container {
@@ -174,43 +174,6 @@
     align-items: center;
     gap: 8px;
     align-self: stretch;
-}
-
-.title {
-    color:  #121212;
-    text-align: center;
-
-    font-family: "Roboto Flex", sans-serif;
-    font-size: 40px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 100%; /* 40px */
-    text-transform: uppercase;
-    font-variation-settings:
-            "opsz" 96,
-            "wght" 600,
-            "GRAD" 150,
-            "XOPQ" 96,
-            "XTRA" 468,
-            "YOPQ" 79,
-            "YTAS" 750,
-            "YTDE" 203,
-            "YTFI" 738,
-            "YTLC" 514,
-            "YTUC" 712,
-            "slnt" 0,
-            "wdth" 151;
-
-}
-
-.subtitle {
-    color: rgba(18, 18, 18, 0.60);
-    text-align: center;
-
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%; /* 21px */
 }
 
 .price {

@@ -4,7 +4,6 @@
 
 .content {
     display: flex;
-    min-width: 345px;
     max-width: 1776px;
     flex-direction: column;
     align-items: flex-start;
@@ -20,39 +19,6 @@
     gap: 40px;
     align-self: stretch;
     flex-wrap: wrap;
-}
-
-.title {
-    font-family: "Roboto Flex", sans-serif;
-    font-size: 96px;
-    line-height: 1;
-    text-transform: uppercase;
-    color: #121212;
-
-    font-variation-settings:
-            "opsz" 96,
-            "wght" 600,
-            "GRAD" 150,
-            "XOPQ" 96,
-            "XTRA" 468,
-            "YOPQ" 79,
-            "YTAS" 750,
-            "YTDE" 203,
-            "YTFI" 738,
-            "YTLC" 514,
-            "YTUC" 712,
-            "slnt" 0,
-            "wdth" 151;
-}
-
-.text {
-    min-width: 345px;
-    max-width: 624px;
-    align-self: stretch;
-    color: rgba(18, 18, 18, 0.6);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 150%;
 }
 
 .btn {
@@ -74,7 +40,6 @@
 
 .left {
     display: flex;
-    min-width: 345px;
     max-width: 1171px;
     flex-direction: column;
     align-items: flex-start;
@@ -85,7 +50,6 @@
 .right {
     display: flex;
     width: 406px;
-    min-width: 200px;
     max-width: 566px;
     flex-direction: column;
     align-items: flex-end;
@@ -227,4 +191,15 @@
 
 .arrowRight {
     transform: rotate(180deg);
+}
+
+@media (max-width: 768px) {
+    .btn {
+        width: 100%;
+    }
+
+    .right {
+        width: 100%;
+        max-width: 100%;
+    }
 }

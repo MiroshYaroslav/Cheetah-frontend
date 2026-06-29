@@ -8,9 +8,10 @@
 
     --radius: 18px;
 
+    --header-height: 100px;
+
     /* Container */
-    --container-max: 1300px;
-    --gutter: clamp(16px, 4vw, 32px);
+    --gutter: 72px;
 
     /* Spacing */
     --s1: 8px;
@@ -54,8 +55,7 @@ p { line-height: 1.6; color: var(--muted); }
 
 .container {
     width: 100%;
-    max-width: var(--container-max);
-    margin: 0 auto;
+    padding: 0 var(--gutter);
 }
 
 .card {
@@ -66,3 +66,9 @@ p { line-height: 1.6; color: var(--muted); }
 }
 
 .muted { color: var(--muted); }
+
+@media (max-width: 480px) {
+    :root {
+        --gutter: 24px;
+    }
+}

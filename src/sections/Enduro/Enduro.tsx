@@ -3,6 +3,7 @@ import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
 import {enduroStats, images} from "../../data/siteData";
 import styles from "./Enduro.module.css";
+import SectionHeader from "../../components/SectionHeader/SectionHeader.tsx";
 
 export default function Enduro() {
     const [index, setIndex] = useState(0);
@@ -24,11 +25,16 @@ export default function Enduro() {
                 <div className={styles.content}>
                     <div className={styles.top}>
                         <div className={styles.left}>
-                            <h2 className={styles.title}>ENDURO</h2>
-                            <p className={styles.text}>
-                                Experience the future of mobility with our lightweight, powerful electric motorcycles.
-                                Engineered for those who demand excellence.
-                            </p>
+                            <SectionHeader
+                                title="ENDURO"
+                                subtitle={
+                                    <>
+                                        Experience the future of mobility with our lightweight, powerful electric motorcycles.<br />
+                                        Engineered for those who demand excellence.
+                                    </>
+                                }
+                                align="left"
+                                subtitleAlign="left"/>
 
                             <Button href="#contact" variant="primary" className={styles.btn}>
                                 <span className={styles.text_btn}>Configurator</span>

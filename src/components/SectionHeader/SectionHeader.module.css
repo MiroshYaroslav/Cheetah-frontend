@@ -57,7 +57,6 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 16px;
 }
 
 .textCol {
@@ -72,6 +71,8 @@
     cursor: pointer;
     display: grid;
     place-items: center;
+    padding: 0;
+    flex-shrink: 0;
 
     transition: transform 160ms ease, opacity 160ms ease;
 }
@@ -95,4 +96,16 @@
 .isCollapsed .collapseIcon {
     transform: rotate(180deg);
 }
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 64px;
+    }
+}
+@media (max-width: 480px) {
+    .title {
+        font-size: 40px;
+    }
+}
+
 

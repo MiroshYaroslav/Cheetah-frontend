@@ -1,9 +1,14 @@
 import styles from "./SectionHeader.module.css";
+import React from "react";
 
 type Props = {
     title: string;
-    subtitle?: string;
+    subtitle?: React.ReactNode;
     align?: "left" | "center";
+
+    titleColor?: string;
+    subtitleColor?: string;
+    subtitleAlign?: "left" | "center";
 
     collapsible?: boolean;
     collapsed?: boolean;
@@ -17,13 +22,32 @@ export default function SectionHeader({
                                           collapsible = false,
                                           collapsed = false,
                                           onToggle,
+                                          titleColor,
+                                          subtitleColor,
+                                          subtitleAlign,
                                       }: Props) {
     return (
         <div className={`${styles.wrap} ${styles[align]}`}>
             <div className={styles.row}>
                 <div className={styles.textCol}>
-                    <h2 className={styles.title}>{title}</h2>
-                    {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
+                    <h2
+                        className={styles.title}
+                        style={{ color: titleColor }}
+                    >
+                        {title}
+                    </h2>
+
+                    {subtitle ? (
+                        <p
+                            className={styles.subtitle}
+                            style={{
+                                color: subtitleColor,
+                                textAlign: subtitleAlign
+                            }}
+                        >
+                            {subtitle}
+                        </p>
+                    ) : null}
                 </div>
 
                 {collapsible ? (

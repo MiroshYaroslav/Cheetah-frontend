@@ -1,15 +1,14 @@
 .header {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 50;
     padding: 20px 0;
-
     background: rgba(0,0,0,0);
     border-bottom: 1px solid rgba(246,246,246,0);
-
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
-
     transition:
             padding 220ms ease,
             background 220ms ease,
@@ -24,12 +23,18 @@
     padding: 8px 0;
     background: rgba(0,0,0,0.85);
     border-bottom-color: rgba(246,246,246,0.12);
-
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-
     box-shadow: 0 8px 24px rgba(0,0,0,0.22);
     transform: translateY(0);
+}
+
+.headerMenuOpen {
+    box-shadow: none !important;
+    border-bottom-color: transparent !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }
 
 .inner {
@@ -68,12 +73,10 @@
     position: relative;
     color: #f6f6f6;
     text-align: center;
-
     font-family: Roboto, sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 150%;
-
     display: flex;
     height: 60px;
     padding: var(--s2) var(--s1);
@@ -95,11 +98,7 @@
     transition: transform 160ms ease, opacity 160ms ease;
 }
 
-.link:hover::after {
-    opacity: 1;
-    transform: scaleX(1);
-}
-
+.link:hover::after,
 .link.active::after {
     opacity: 1;
     transform: scaleX(1);
@@ -112,7 +111,7 @@
 .right {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 8px;
 }
 
 .langSwitch {
@@ -125,16 +124,12 @@
     border: 0;
     background: transparent;
     cursor: pointer;
-
     color: #F6F6F6;
     text-align: center;
-
     font-family: Roboto, sans-serif;
     font-size: 16px;
-    font-style: normal;
     font-weight: 400;
-    line-height: 150%; /* 24px */
-
+    line-height: 150%;
     display: flex;
     width: 60px;
     height: 60px;
@@ -167,6 +162,7 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+    padding: 0;
     aspect-ratio: 1/1;
     background: transparent;
     border: none;
@@ -184,53 +180,113 @@
 .burger {
     display: none;
     width: 44px;
-    height: 40px;
+    height: 44px;
     border-radius: 12px;
-    border: 1px solid rgba(246, 246, 246, 0.25);
+    border: none;
     background: transparent;
     cursor: pointer;
+    padding: 0;
+    transition: opacity 160ms ease, transform 160ms ease;
 }
 
-.burger span {
+.burger:hover {
+    opacity: 0.85;
+}
+
+.burger:active {
+    transform: scale(0.95);
+}
+
+.burgerSvg {
     display: block;
-    height: 2px;
-    width: 18px;
-    margin: 0 auto;
-    background: rgba(246, 246, 246, 0.9);
+    width: 24px;
+    height: 24px;
 }
 
-.burger span + span {
-    margin-top: 6px;
+.lineTop {
+    transform-origin: 12px 6px;
+    transition: transform 300ms ease, opacity 300ms ease;
+}
+
+.lineMiddle {
+    transform-origin: 12px 12px;
+    transition: transform 300ms ease, opacity 300ms ease;
+}
+
+.lineBottom {
+    transform-origin: 12px 18px;
+    transition: transform 300ms ease, opacity 300ms ease;
+}
+
+.burgerOpen .lineTop {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.burgerOpen .lineMiddle {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.burgerOpen .lineBottom {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+.overlay {
+    display: none;
 }
 
 @media (max-width: 900px) {
     .burger {
-        display: inline-grid;
+        display: grid;
         place-items: center;
     }
 
     .nav {
         position: absolute;
+        top: 0;
         left: 0;
         right: 0;
-        top: 64px;
-
-        background: rgba(0, 0, 0, 0.95);
+        z-index: -1;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         border-bottom: 1px solid rgba(246, 246, 246, 0.15);
-        padding: 14px var(--gutter);
-
-        display: none;
+        padding: 80px var(--gutter) 24px;
+        display: flex;
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-15px);
+        transition: opacity 300ms ease, transform 300ms ease, visibility 300ms ease;
     }
 
     .navOpen {
-        display: flex;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
     }
 
     .link {
         height: auto;
-        padding: 10px 0;
+        padding: 12px 0;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .link::after {
+        display: none;
+    }
+
+    .overlay {
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.6);
+        cursor: default;
     }
 }

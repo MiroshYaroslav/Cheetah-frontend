@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
 import styles from "./Hero.module.css";
+import SectionHeader from "../../components/SectionHeader/SectionHeader.tsx";
 
 export default function Hero() {
     const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -25,7 +26,7 @@ export default function Hero() {
     };
 
     return (
-        <section className={styles.hero}>
+        <section id="top" className={styles.hero}>
             <div className={styles.bg} aria-hidden="true">
                 <video
                     ref={videoRef}
@@ -45,12 +46,18 @@ export default function Hero() {
             <Container className={styles.inner}>
                 <div className={styles.content}>
                     <div className={styles.top}>
-                        <h1 className={styles.title}>CHEETAH</h1>
-                        <p className={styles.text}>
-                            Experience the future of mobility with our lightweight, powerful electric motorcycles.
-                            <br />
-                            Engineered for those who demand excellence.
-                        </p>
+                        <SectionHeader
+                            title="CHEETAH"
+                            subtitle={
+                                <>
+                                    Experience the future of mobility with our lightweight, powerful electric motorcycles.<br />
+                                    Engineered for those who demand excellence.
+                                </>
+                            }
+                            align="left"
+                            titleColor="var(--bg)"
+                            subtitleColor="var(--bg)"
+                            subtitleAlign="left"/>
 
                         <div className={styles.ctaRow}>
                             <Button className={styles.heroBtn} variant="secondary">

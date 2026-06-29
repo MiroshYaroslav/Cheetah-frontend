@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import type {EmblaCarouselType} from "embla-carousel";
+import type { EmblaCarouselType } from "embla-carousel";
 import Container from "../../components/Container/Container";
 import { testimonials } from "../../data/siteData";
 import styles from "./Testimonials.module.css";
@@ -46,7 +46,7 @@ export default function Testimonials() {
 
     return (
         <section className={styles.section}>
-            <div className={styles.fullBleed}>
+            <Container>
                 <div className={styles.embla} ref={emblaRef}>
                     <div className={styles.embla__container}>
                         {testimonials.map((t, idx) => (
@@ -68,9 +68,7 @@ export default function Testimonials() {
                         ))}
                     </div>
                 </div>
-            </div>
 
-            <Container>
                 <div className={styles.controls}>
                     <div className={styles.indicators} aria-label="Slide indicators">
                         {scrollSnaps.map((_, index) => (

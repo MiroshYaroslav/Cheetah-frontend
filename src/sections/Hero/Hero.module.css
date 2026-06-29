@@ -2,6 +2,7 @@
     position: relative;
     min-height: 72vh;
     overflow: hidden;
+    padding-top: var(--header-height);
 }
 
 .bg {
@@ -33,10 +34,10 @@
     position: relative;
     min-height: 72vh;
     z-index: 1;
-    height: 924px;
+    height: 980px;
     display: flex;
     align-items: stretch;
-    padding-top: 100px;
+    padding-top: var(--header-height);
 }
 
 .content {
@@ -100,41 +101,6 @@
     opacity: 0.75;
 }
 
-.title {
-    font-family: "Roboto Flex", sans-serif;
-    font-size: 96px;
-    line-height: 1;
-    text-transform: uppercase;
-    color: #f6f6f6;
-
-    font-variation-settings:
-            "opsz" 96,
-            "wght" 600,
-            "GRAD" 150,
-            "XOPQ" 96,
-            "XTRA" 468,
-            "YOPQ" 79,
-            "YTAS" 750,
-            "YTDE" 203,
-            "YTFI" 738,
-            "YTLC" 514,
-            "YTUC" 712,
-            "slnt" 0,
-            "wdth" 151;
-}
-
-.text {
-    min-width: 345px;
-    max-width: 624px;
-    align-self: stretch;
-    color: #f6f6f6;
-
-    font-family: Roboto, sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 150%;
-}
-
 .heroBtn {
     color: #121212;
 }
@@ -165,4 +131,16 @@
     font-size: 14px;
     font-weight: 400;
     line-height: 150%;
+}
+
+@media (max-width: 1440px) {
+    .inner {
+        height: 924px;
+    }
+}
+
+@media (max-width: 500px) {
+    .inner {
+        height: 792px;
+    }
 }

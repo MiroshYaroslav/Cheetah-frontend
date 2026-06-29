@@ -6,10 +6,20 @@ export default function Footer() {
     return (
         <footer className={styles.footer}>
             <Container>
-                <div className={styles.topSection}>
-                    <div className={styles.leftBlock}>
-                        <img src="/logo.svg" alt="Cheetah logo" className={styles.logoImg} />
+                <div className={styles.navSection}>
+                    <img src="/logo.svg" alt="Cheetah logo" className={styles.logoImg} />
 
+                    <nav className={styles.nav}>
+                        <a href="/" className={styles.link}>Home</a>
+                        {navLinks.map((l) => (
+                            <a key={l.href} href={l.href} className={styles.link}>
+                                {l.label}
+                            </a>
+                        ))}
+                    </nav>
+                </div>
+                <div className={styles.contactSection}>
+                    <div className={styles.leftBlock}>
                         <div className={styles.socials}>
                             <a href="#" aria-label="Instagram" className={styles.iconLink}>
                                 <img src="/instagram.svg" alt="" className={styles.icon} />
@@ -24,15 +34,6 @@ export default function Footer() {
                             <span className={styles.locationText}>м. Львів вул. Степана бандери 6</span>
                         </div>
                     </div>
-
-                    <nav className={styles.nav}>
-                        <a href="/" className={styles.link}>Home</a>
-                        {navLinks.map((l) => (
-                            <a key={l.href} href={l.href} className={styles.link}>
-                                {l.label}
-                            </a>
-                        ))}
-                    </nav>
                 </div>
 
                 <div className={styles.bottomSection}>

@@ -80,3 +80,9 @@
 .sendBtn:hover {
     opacity: 0.85;
 }
+
+@media (max-width: 768px) {
+    .section {
+        padding-bottom: 40px;
+    }
+}

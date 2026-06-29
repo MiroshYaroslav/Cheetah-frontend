@@ -21,8 +21,20 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
+    useEffect(() => {
+        if (open) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [open]);
+
     return (
-        <header className={`${styles.header} ${scrolled ? styles.headerSolid : ""}`}>
+        <header className={`${styles.header} ${scrolled || open ? styles.headerSolid : ""} ${open ? styles.headerMenuOpen : ""}`}>
             <Container className={styles.inner}>
                 <div className={styles.left}>
                     <a className={styles.logo} href="#top" aria-label="Cheetah home">
@@ -40,6 +52,14 @@ export default function Navbar() {
                                 {l.label}
                             </a>
                         ))}
+
+                        <div
+                            className={styles.overlay}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setOpen(false);
+                            }}
+                        />
                     </nav>
                 </div>
 
@@ -59,16 +79,53 @@ export default function Navbar() {
                     </button>
 
                     <button
-                        className={styles.burger}
+                        className={`${styles.burger} ${open ? styles.burgerOpen : ""}`}
                         type="button"
                         aria-label="Menu"
                         onClick={() => setOpen((v) => !v)}
                     >
-                        <span />
-                        <span />
+                        <BurgerSvg styles={styles} />
                     </button>
                 </div>
             </Container>
         </header>
+    );
+}
+
+function BurgerSvg({ styles }: { styles: Record<string, string> }) {
+    return (
+        <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={styles.burgerSvg}
+        >
+            <path
+                className={styles.lineTop}
+                d="M4 6H20"
+                stroke="#F6F6F6"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                className={styles.lineMiddle}
+                d="M4 12H20"
+                stroke="#F6F6F6"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                className={styles.lineBottom}
+                d="M4 18H20"
+                stroke="#F6F6F6"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
     );
 }
