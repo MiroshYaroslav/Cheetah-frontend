@@ -1,0 +1,50 @@
+import type { PartItem } from "./types";
+
+export const parts: PartItem[] = [
+    {
+        id: "battery",
+        slug: "battery",
+        title: "BATTERY",
+        subtitle: "MAXION MXBM-YTX14-BS GET",
+        price: "800₴",
+        image: "/Battery.png",
+        inStock: false,
+    },
+    {
+        id: "plastic",
+        slug: "plastic",
+        title: "PLASTIC",
+        subtitle: "Complete set",
+        price: "5 000₴",
+        image: "/Plastic.png",
+        inStock: true,
+        colors: ["#121212", "#8A8A8A", "#F6F6F6"],
+    },
+    {
+        id: "charger",
+        slug: "charger",
+        title: "CHARGER",
+        subtitle: "Fast charger",
+        price: "5 000₴",
+        image: "/Charger.png",
+        inStock: true,
+    },
+    {
+        id: "tires",
+        slug: "tires",
+        title: "Tires",
+        subtitle: "Summer",
+        price: "2 000₴",
+        image: "/Tires.png",
+        inStock: true,
+    },
+    {
+        id: "tires2",
+        slug: "tires2",
+        title: "Tires",
+        subtitle: "Off-road",
+        price: "2 500₴",
+        image: "/Tires2.png",
+        inStock: true,
+    },
+];

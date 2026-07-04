@@ -1,20 +1,51 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Container from "../../components/Container/Container";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import Collapse from "../../components/Collapse/Collapse";
-import { parts } from "../../data/siteData";
+import { parts } from "../../data/partsData"; // Прибрав .ts
+import { useCartStore } from "../../store/cartStore";
 import styles from "./Parts.module.css";
+import type { PartItem } from "../../data/types";
 
 export default function Parts() {
     const [collapsed, setCollapsed] = useState(false);
     const [colorIndexById, setColorIndexById] = useState<Record<string, number>>({});
+
+    const items = useCartStore(state => state.items);
+    const addItem = useCartStore(state => state.addItem);
+
+    const visibleParts = useMemo(() => {
+        return parts.filter(p => !items.some(item => item.id === p.id || item.id.startsWith(`${p.id}-`)));
+    }, [items]);
+
+    const handleAddPart = (part: PartItem, selectedColorIndex: number) => {
+        const color = part.colors && part.colors.length > 0
+            ? part.colors[selectedColorIndex]
+            : null;
+
+        const uniqueId = color ? `${part.id}-${color}` : part.id;
+
+        const numericPrice = typeof part.price === 'string'
+            ? parseInt(part.price.replace(/\D/g, ''), 10)
+            : part.price;
+
+        addItem({
+            id: uniqueId,
+            name: part.title,
+            price: numericPrice,
+            image: part.image,
+            quantity: 1
+        });
+    };
 
     const [emblaRef] = useEmblaCarousel({
         dragFree: true,
         align: "start",
         containScroll: "trimSnaps"
     });
+
+    if (visibleParts.length === 0) return null;
 
     return (
         <section id="parts" className={styles.section}>
@@ -32,19 +63,12 @@ export default function Parts() {
                 <div className={styles.fullBleed}>
                     <div className={styles.embla} ref={emblaRef}>
                         <div className={styles.embla__container}>
-                            {parts.map((p) => {
+                            {visibleParts.map((p) => {
                                 const colors = p.colors ?? [];
                                 const selected = colorIndexById[p.id] ?? 0;
 
                                 return (
                                     <article key={p.id} className={styles.card}>
-                                        <button
-                                            type="button"
-                                            className={styles.cardLink}
-                                            onClick={() => alert(`Open product page: ${p.slug}`)}
-                                            aria-label={`Open product ${p.title}`}
-                                        />
-
                                         <div className={styles.cardTop}>
                                             <div className={styles.swatches}>
                                                 {colors.map((c, i) => (
@@ -67,7 +91,10 @@ export default function Parts() {
                                                     className={styles.cartBtn}
                                                     type="button"
                                                     aria-label="Add to cart"
-                                                    onClick={(e) => e.stopPropagation()}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleAddPart(p, selected);
+                                                    }}
                                                 >
                                                     <img src="/cart.svg" alt="" className={styles.cartIcon} />
                                                 </button>

@@ -1,3 +1,5 @@
+import { Routes, Route } from "react-router-dom";
+
 import Navbar from "./sections/Navbar/Navbar";
 import Hero from "./sections/Hero/Hero";
 import Enduro from "./sections/Enduro/Enduro";
@@ -9,19 +11,32 @@ import Testimonials from "./sections/Testimonials/Testimonials";
 import Contact from "./sections/Contact/Contact";
 import Footer from "./sections/Footer/Footer";
 
+import Cart from "./pages/Cart/Cart";
+
 export default function App() {
     return (
         <div id="top">
             <Navbar />
             <main>
-                <Hero />
-                <Enduro />
-                <Parts />
-                <Uniqueness />
-                <About />
-                <FAQ />
-                <Testimonials />
-                <Contact />
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <>
+                                <Hero />
+                                <Enduro />
+                                <Parts />
+                                <Uniqueness />
+                                <About />
+                                <FAQ />
+                                <Testimonials />
+                                <Contact />
+                            </>
+                        }
+                    />
+
+                    <Route path="/cart" element={<Cart />} />
+                </Routes>
             </main>
             <Footer />
         </div>

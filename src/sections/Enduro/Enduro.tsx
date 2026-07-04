@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
-import { enduroStats, images } from "../../data/siteData";
+import { enduroBike } from "../../data/motorcycleData"; // Підключили єдиний об'єкт мотоцикла
 import styles from "./Enduro.module.css";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import Configurator from "../../components/Configurator/Configurator";
@@ -10,6 +10,7 @@ export default function Enduro() {
     const [index, setIndex] = useState(0);
     const [isConfiguratorOpen, setIsConfiguratorOpen] = useState(false);
 
+    const images = enduroBike.images; // Беремо зображення з об'єкта
     const isFirst = index === 0;
     const isLast = index === images.length - 1;
 
@@ -41,7 +42,7 @@ export default function Enduro() {
                     <div className={styles.top}>
                         <div className={styles.left}>
                             <SectionHeader
-                                title="ENDURO"
+                                title={enduroBike.name} // Динамічна назва мотоцикла
                                 subtitle={
                                     <>
                                         Experience the future of mobility with our lightweight, powerful electric motorcycles.<br />
@@ -55,7 +56,7 @@ export default function Enduro() {
                         </div>
 
                         <div className={styles.right}>
-                            {enduroStats.map((s) => (
+                            {enduroBike.stats.map((s) => ( // Динамічні характеристики
                                 <div key={s.label} className={styles.stat}>
                                     <h2 className={styles.statLabel}>{s.label}</h2>
                                     <h2 className={styles.statValue}>{s.value}</h2>

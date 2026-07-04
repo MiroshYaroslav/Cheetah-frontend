@@ -290,3 +290,44 @@
         cursor: default;
     }
 }
+
+.headerLight.headerSolid {
+    background: #F8F9FA;
+    border-bottom-color: rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Змінюємо колір тексту посилань та кнопок мови на темний */
+.headerLight .link,
+.headerLight .langBtn {
+    color: #121212;
+}
+
+/* Змінюємо колір лінії підкреслення при наведенні */
+.headerLight .link::after {
+    background: #121212;
+}
+
+/* Затемнюємо розділювач між EN | UA */
+.headerLight .langDivider {
+    background: rgba(18, 18, 18, 0.2);
+}
+
+/* МАГІЯ: Робимо білі іконки (логотип і кошик) чорними за допомогою фільтра */
+.headerLight .logo img,
+.headerLight .cartBtn img {
+    filter: invert(1) brightness(0.1);
+}
+
+/* Робимо SVG-бургер темним */
+.headerLight .burgerSvg path {
+    stroke: #121212;
+}
+
+/* Адаптація світлої теми для мобільного меню */
+@media (max-width: 900px) {
+    .headerLight .nav {
+        background: #F8F9FA;
+        border-bottom-color: rgba(0, 0, 0, 0.05);
+    }
+}

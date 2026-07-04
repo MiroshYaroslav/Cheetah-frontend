@@ -1,30 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCartStore } from "../../store/cartStore";
+import { enduroBike } from "../../data/motorcycleData";
+import type { ConfigOption } from "../../data/types";
 import styles from "./Configurator.module.css";
-import Button from "../Button/Button.tsx";
-
-interface Option {
-    id: string;
-    label: string;
-    color: string;
-}
-
-const frameOptions: Option[] = [
-    { id: "frame-black", label: "Чорний", color: "#7B7B7B" },
-    { id: "frame-purple", label: "Фіолетовий", color: "#8B5CF6" },
-    { id: "frame-white", label: "Білий", color: "#FFFFFF" },
-];
-
-const plasticOptions: Option[] = [
-    { id: "plastic-black", label: "Чорний", color: "#7B7B7B" },
-    { id: "plastic-graphite", label: "Графітовий", color: "#4B4B4B" },
-    { id: "plastic-white", label: "Білий", color: "#FFFFFF" },
-];
-
-const tireOptions: Option[] = [
-    { id: "tire-black", label: "Чорний", color: "#000000" },
-    { id: "tire-white", label: "Білий", color: "#000000" },
-    { id: "tire-graphite", label: "Графітовий", color: "#000000" },
-];
+import Button from "../Button/Button";
 
 interface ConfiguratorProps {
     onClose: () => void;
@@ -33,12 +13,46 @@ interface ConfiguratorProps {
 type Tab = "specs" | "colors";
 
 export default function Configurator({ onClose }: ConfiguratorProps) {
-    const [activeTab, setActiveTab] = useState<Tab>("colors");
-    const [frame, setFrame] = useState(frameOptions[0].id);
-    const [plastic, setPlastic] = useState(plasticOptions[0].id);
-    const [tires, setTires] = useState(tireOptions[0].id);
+    const navigate = useNavigate();
+    const addItem = useCartStore((state) => state.addItem);
 
-    const renderOptions = (options: Option[], selected: string, onChange: (id: string) => void) => (
+    const [activeTab, setActiveTab] = useState<Tab>("colors");
+
+    // Беремо дефолтні значення з об'єкта enduroBike
+    const [frame, setFrame] = useState(enduroBike.configOptions.frame[0].id);
+    const [plastic, setPlastic] = useState(enduroBike.configOptions.plastic[0].id);
+    const [tires, setTires] = useState(enduroBike.configOptions.tires[0].id);
+
+    const handleBuyClick = () => {
+        // Динамічно шукаємо вибрані назви
+        const selectedFrame = enduroBike.configOptions.frame.find(o => o.id === frame)?.label || '';
+        const selectedPlastic = enduroBike.configOptions.plastic.find(o => o.id === plastic)?.label || '';
+        const selectedTires = enduroBike.configOptions.tires.find(o => o.id === tires)?.label || '';
+
+        addItem({
+            id: `${enduroBike.id}-${frame}-${plastic}-${tires}`,
+            name: enduroBike.name,
+            price: enduroBike.basePrice,
+            image: enduroBike.images[0].src, // Беремо перше фото з масиву
+            quantity: 1,
+            config: {
+                frameLabel: selectedFrame,
+                plasticLabel: selectedPlastic,
+                tiresLabel: selectedTires,
+            },
+            stats: {
+                // Витягуємо характеристики прямо з об'єкта
+                weight: enduroBike.stats.find(s => s.label === "Weight")?.value || "114 kg",
+                speed: enduroBike.stats.find(s => s.label === "Maximum speed")?.value || "40 km/h",
+                cooling: enduroBike.stats.find(s => s.label === "Cooling")?.value || "Liquid"
+            }
+        });
+
+        onClose();
+        navigate("/cart");
+    };
+
+    const renderOptions = (options: ConfigOption[], selected: string, onChange: (id: string) => void) => (
         <div className={styles.optionsGrid}>
             {options.map((opt) => (
                 <button
@@ -91,7 +105,6 @@ export default function Configurator({ onClose }: ConfiguratorProps) {
 
             <div className={styles.body}>
                 <div className={styles.tabsWrapper}>
-
                     <div className={`${styles.tabContent} ${styles.tabSpecs} ${activeTab === "specs" ? styles.tabContentActive : ""}`}>
                         <div className={styles.section}>
                             <h1 className={styles.sectionTitle}>Технічні характеристики</h1>
@@ -102,24 +115,24 @@ export default function Configurator({ onClose }: ConfiguratorProps) {
                     <div className={`${styles.tabContent} ${styles.tabColors} ${activeTab === "colors" ? styles.tabContentActive : ""}`}>
                         <div className={styles.section}>
                             <h1 className={styles.sectionTitle}>Колір рами</h1>
-                            {renderOptions(frameOptions, frame, setFrame)}
+                            {/* Передаємо масиви опцій безпосередньо з enduroBike */}
+                            {renderOptions(enduroBike.configOptions.frame, frame, setFrame)}
                         </div>
                         <div className={styles.section}>
                             <h1 className={styles.sectionTitle}>Колір пластику</h1>
-                            {renderOptions(plasticOptions, plastic, setPlastic)}
+                            {renderOptions(enduroBike.configOptions.plastic, plastic, setPlastic)}
                         </div>
                         <div className={styles.section}>
                             <h1 className={styles.sectionTitle}>Малюнки покришок</h1>
-                            {renderOptions(tireOptions, tires, setTires)}
+                            {renderOptions(enduroBike.configOptions.tires, tires, setTires)}
                         </div>
                     </div>
-
                 </div>
             </div>
 
             <div className={styles.footer}>
-                <div className={styles.price}>150 000₴</div>
-                <Button className={styles.buyBtn} variant="primary">
+                <div className={styles.price}>{enduroBike.basePrice.toLocaleString('uk-UA')}₴</div>
+                <Button className={styles.buyBtn} variant="primary" onClick={handleBuyClick}>
                     Купити
                 </Button>
             </div>

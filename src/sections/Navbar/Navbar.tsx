@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Container from "../../components/Container/Container";
 import { navLinks } from "../../data/siteData";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
+    const navigate = useNavigate();
+    const location = useLocation();
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+
+    // Перевіряємо, чи ми на сторінці кошика
+    const isCartPage = location.pathname === "/cart";
 
     useEffect(() => {
         const onScroll = () => {
@@ -33,13 +39,22 @@ export default function Navbar() {
         };
     }, [open]);
 
+    // Формуємо класи для хедера
+    // Якщо це кошик -> додаємо headerLight і завжди робимо його Solid
+    const headerClasses = [
+        styles.header,
+        isCartPage ? styles.headerLight : "",
+        scrolled || open || isCartPage ? styles.headerSolid : "",
+        open ? styles.headerMenuOpen : ""
+    ].filter(Boolean).join(" ");
+
     return (
-        <header className={`${styles.header} ${scrolled || open ? styles.headerSolid : ""} ${open ? styles.headerMenuOpen : ""}`}>
+        <header className={headerClasses}>
             <Container className={styles.inner}>
                 <div className={styles.left}>
-                    <a className={styles.logo} href="#top" aria-label="Cheetah home">
+                    <button className={styles.logo} onClick={() => navigate("/")} aria-label="Cheetah home" style={{background: 'none', border: 'none', cursor: 'pointer', padding: 0}}>
                         <img src="/logo.svg" alt="logo" />
-                    </a>
+                    </button>
 
                     <nav className={`${styles.nav} ${open ? styles.navOpen : ""}`}>
                         {navLinks.map((l) => (
@@ -74,7 +89,7 @@ export default function Navbar() {
                         </button>
                     </div>
 
-                    <button className={styles.cartBtn} type="button" aria-label="Cart">
+                    <button className={styles.cartBtn} type="button" aria-label="Cart" onClick={() => navigate("/cart")}>
                         <img src="/cart.svg" alt="cart" />
                     </button>
 
