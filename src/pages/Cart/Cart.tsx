@@ -190,6 +190,7 @@ export default function Cart() {
                             <label className={styles.selectAll}>
                                 <input
                                     type="checkbox"
+                                    className={styles.checkbox}
                                     checked={isAllSelected}
                                     onChange={handleSelectAllToggle}
                                     disabled={items.length === 0}
@@ -208,19 +209,17 @@ export default function Cart() {
                                 <img src="/CaretRight.svg" alt="arrow" className={styles.chevron} />
                             </button>
 
-                            <div className={styles.receipt}>
-                                <div className={styles.receiptRow}>
-                                    <span>Ціна покупок</span>
-                                    <span>{totalPrice.toLocaleString('uk-UA')}₴</span>
-                                </div>
-                                <div className={styles.receiptRow}>
-                                    <span>Ціна доставки</span>
-                                    <span>{totalPrice > 0 ? deliveryPrice : 0}₴</span>
-                                </div>
-                                <div className={styles.receiptTotal}>
-                                    <span>Всього:</span>
-                                    <span>{finalPrice.toLocaleString('uk-UA')}₴</span>
-                                </div>
+                            <div className={styles.receiptRow}>
+                                <span>Ціна покупок</span>
+                                <span>{totalPrice.toLocaleString('uk-UA')}₴</span>
+                            </div>
+                            <div className={styles.receiptRow}>
+                                <span>Ціна доставки</span>
+                                <span>{totalPrice > 0 ? deliveryPrice : 0}₴</span>
+                            </div>
+                            <div className={styles.receiptTotal}>
+                                <span>Всього:</span>
+                                <span>{finalPrice.toLocaleString('uk-UA')}₴</span>
                             </div>
 
                             <Button variant="primary" className={styles.checkoutBtn} disabled={!hasSelectedItems}>

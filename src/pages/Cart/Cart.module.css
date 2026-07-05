@@ -7,7 +7,7 @@
 
 .layout {
     display: grid;
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: 1fr 30%;
     gap: 40px;
     align-items: flex-start;
 }
@@ -15,7 +15,8 @@
 .itemsColumn {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
+    min-width: 0;
 }
 
 .cartCard {
@@ -46,6 +47,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+    flex-shrink: 0;
 }
 
 .checkbox {
@@ -204,23 +206,21 @@
 .cardFooter {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    align-content: flex-start;
-    row-gap: 8px;
+    align-items: center; /* Краще центрувати їх по вертикалі */
+    gap: 8px; /* Трохи більший відступ між лічильником і ціною */
     align-self: stretch;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; <-- ПРИБРАЛИ, щоб заборонити перенос на новий рядок */
 }
 
 .quantityControl {
     display: flex;
     height: 48px;
-    min-width: 183px;
+    min-width: 110px; /* Зменшили мінімальну ширину, щоб дозволити йому стискатись */
     max-width: 236px;
-    flex: 1 0 0;
+    flex: 1 1 0; /* 1 (grow), 1 (shrink - ДОЗВОЛЯЄМО стискатись), 0 (basis) */
     padding: 12px 16px;
     justify-content: space-between;
     align-items: center;
-    align-self: stretch;
     border-radius: 4px;
     border: 1px solid #121212;
 }
@@ -304,19 +304,33 @@
 
 .itemPrice {
     color: #131214;
-    text-align: center;
+    text-align: right;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Arial, sans-serif;
     font-size: 32px;
     font-style: normal;
     font-weight: 400;
     line-height: 150%;
+
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .summaryCard {
-    background: #FFFFFF;
-    border-radius: 16px;
-    padding: 32px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    display: flex;
+    /* ВИДАЛИ АБО ЗАКРИЙ КОМЕНТАРЯМИ ЦІ ДВА РЯДКИ: */
+    /* width: 405px; */
+    /* min-width: 300px; */
+
+    padding: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    border-radius: 20px;
+    border: 1px solid #DADDDE;
+    background: #F4F6F7;
+    box-shadow: 0 8px 25px 0 rgba(83, 89, 144, 0.25);
+
+    /* Додаємо sticky, щоб блок їздив за нами при скролі */
     position: sticky;
     top: 120px;
 }
@@ -324,40 +338,44 @@
 .selectAll {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 14px;
-    margin-bottom: 24px;
+    gap: 8px;
     cursor: pointer;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 21px */
 }
 
 .summaryTitle {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0 0 16px 0;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%; /* 21.6px */
 }
 
 .deliveryNote {
-    font-size: 14px;
-    color: #565656;
-    margin: 0 0 24px 0;
-    line-height: 1.5;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 24px */
 }
 
 .securityBtn {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    flex: 1 0 0;
     width: 100%;
     background: transparent;
     border: none;
-    border-top: 1px solid #F0F0F0;
-    border-bottom: 1px solid #F0F0F0;
-    padding: 16px 0;
+    border-bottom: 1px solid rgba(18, 18, 18, 0.12);
+    padding: 0 0 23px 0;
+    margin-bottom: 7px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
     text-align: left;
-    margin-bottom: 32px;
+    color: #0b0b0b;
 }
 
 .chevron {
@@ -366,18 +384,22 @@
 
 .receiptRow {
     display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    color: #565656;
-    margin-bottom: 16px;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 24px */
 }
 
 .receiptTotal {
     display: flex;
-    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
     font-size: 18px;
-    font-weight: 600;
-    margin: 24px 0;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%; /* 21.6px */
 }
 
 .checkoutBtn {
@@ -398,27 +420,31 @@
     margin-top: 80px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .layout {
         grid-template-columns: 1fr;
     }
 
     .summaryCard {
         position: static;
+        width: 100%;
     }
 
     .cartCard {
         flex-direction: column;
         height: auto;
+        align-items: stretch; /* Дозволяємо внутрішнім блокам тягнутися на всю ширину */
     }
 
-    .left {
-        height: auto;
+    /* Примусово розтягуємо ліву і праву частини на 100% */
+    .left, .right {
+        width: 100%;
+        flex: none; /* Скидаємо flex, щоб він не ламав висоту в колонці */
     }
 
     .cardImageWrap {
-        flex: none;
-        width: 100%;
-        height: 250px;
+        flex: 1; /* Замінили none на 1, щоб він гнучко заповнив залишок місця */
+        width: auto; /* Прибрали 100%, яке чавило іконки */
+        height: 300px;
     }
 }
