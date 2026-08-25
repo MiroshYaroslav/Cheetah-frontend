@@ -12,7 +12,7 @@
 
 .title {
     font-family: "Roboto Flex", sans-serif;
-    font-size: 96px;
+    font-size: 120px;
     line-height: 1;
     text-transform: uppercase;
     color: #121212;
@@ -34,11 +34,7 @@
 }
 
 .subtitle {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
     align-self: stretch;
-
     overflow: hidden;
     color: rgba(18, 18, 18, 0.60);
     text-align: center;

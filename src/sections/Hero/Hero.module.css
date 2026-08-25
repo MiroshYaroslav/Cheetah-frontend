@@ -53,7 +53,9 @@
     display: flex;
     gap: var(--s3);
     flex-direction: column;
-    padding: var(--s4) 0;
+    padding: var(--s5) 0;
+    width: max-content;
+    max-width: 100%;
 }
 
 .bottom {
@@ -61,15 +63,18 @@
     flex-direction: row;
     justify-content: space-between;
     gap: var(--s3);
-    padding: var(--s4) 0;
+    padding: 40px 0;
 }
 
-.features {
+.bottomText {
+    color: rgba(255, 255, 255, 0.70);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 24px */
+
     display: flex;
-    align-items: flex-start;
-    align-content: flex-start;
-    gap: var(--s1) var(--s1);
-    flex-wrap: wrap;
+    align-items: flex-end;
 }
 
 .bottomBtn {
@@ -92,6 +97,46 @@
     gap: 10px;
 }
 
+.titleWrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.titleLogo {
+    height: 0.8em;
+    width: auto;
+    display: block;
+}
+
+.arrowIcon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+
+    background-color: rgba(0, 0, 0, 0.90);
+
+    -webkit-mask-image: url('/arrow.svg');
+    mask-image: url('/arrow.svg');
+
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+
+    vertical-align: middle;
+    align-self: center;
+
+    /* 2. Точне калібрування (мікро-зсув) */
+    /* Зверни увагу: оскільки ми перевернули іконку на 90 градусів (rotate),
+       її осі X та Y теж перевернулися!
+       Тому щоб посунути її візуально ВГОРУ/ВНИЗ, ми використовуємо translateX */
+
+    transform: rotate(90deg);
+}
+
 .videoToggle:hover {
     opacity: 0.85;
     transform: none;
@@ -103,34 +148,6 @@
 
 .heroBtn {
     color: #121212;
-}
-
-.feature {
-    display: flex;
-    min-width: 200px;
-    max-width: 265px;
-    padding: var(--s4);
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: var(--s2);
-    flex: 1 0 0;
-}
-
-.featureTitle {
-    color: #fff;
-    font-family: Inter, sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 120%;
-}
-
-.featureText {
-    color: #daddde;
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 150%;
 }
 
 @media (max-width: 1440px) {

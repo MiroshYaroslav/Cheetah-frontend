@@ -1,38 +1,63 @@
+import { type ReactNode } from "react";
 import styles from "./Button.module.css";
-import React from "react";
 
 type Props = {
-    children: React.ReactNode;
+    children: ReactNode;
     href?: string;
-    onClick?: () => void;
-    variant?: "primary" | "secondary";
-    className?: string;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
     type?: "button" | "submit";
     disabled?: boolean;
+    className?: string;
+    variant?: "primary" | "secondary" | "outline";
+    size?: "md" | "sm";
+    fullWidth?: boolean;
+    iconRight?: ReactNode;
 };
 
 export default function Button({
                                    children,
                                    href,
                                    onClick,
-                                   variant = "primary",
-                                   className = "",
                                    type = "button",
                                    disabled = false,
+                                   className = "",
+                                   variant = "primary",
+                                   size = "md",
+                                   fullWidth = false,
+                                   iconRight,
                                }: Props) {
-    const cls = `${styles.btn} ${styles[variant]} ${className} ${disabled ? styles.disabled : ""}`;
+    // Збираємо всі класи до купи
+    const cls = [
+        styles.btn,
+        styles[variant],
+        styles[size],
+        fullWidth ? styles.fullWidth : "",
+        iconRight ? styles.hasIcon : "", // Якщо є іконка, змінюємо вирівнювання
+        disabled ? styles.disabled : "",
+        className,
+    ]
+        .filter(Boolean)
+        .join(" ");
+
+    // Спільний вміст для кнопки або посилання
+    const content = (
+        <>
+            <span className={styles.text}>{children}</span>
+            {iconRight && <span className={styles.icon}>{iconRight}</span>}
+        </>
+    );
 
     if (href) {
         return (
             <a className={cls} href={href} aria-disabled={disabled}>
-                {children}
+                {content}
             </a>
         );
     }
 
     return (
         <button className={cls} type={type} onClick={onClick} disabled={disabled}>
-            {children}
+            {content}
         </button>
     );
 }

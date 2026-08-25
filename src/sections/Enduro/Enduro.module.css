@@ -1,5 +1,5 @@
 .section {
-    padding: 60px 0;
+    padding: 32px 0;
     overflow: hidden;
 }
 
@@ -17,64 +17,33 @@
     display: flex;
     align-items: flex-start;
     align-content: flex-start;
-    gap: 40px;
+    gap: 32px;
     align-self: stretch;
     flex-wrap: wrap;
 }
 
-.btn {
-    height: 60px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: var(--s1);
-    transition: background-color 0.3s ease;
-}
-
-.icon {
-    position: relative;
-    top: 1px;
-    width: 22px;
-    height: 22px;
-    display: inline-flex;
-    transition: transform 0.3s ease;
-}
-
-.iconOpen {
-    transform: rotate(-180deg);
-}
-
-.desktopBtn {
-    display: flex;
-}
-
-.mobileBtn {
-    display: none;
-    width: 100%;
-}
-
+/* --- ГНУЧКІ КОЛОНКИ --- */
 .left {
     display: flex;
-    max-width: 1171px;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--s3);
-    flex: 1 0 0;
+    flex: 1; /* Дозволяємо вільно розтягуватись */
 }
 
 .right {
     display: flex;
-    width: 406px;
-    max-width: 566px;
     flex-direction: column;
     align-items: flex-end;
     gap: var(--s4);
+    flex: 1;
+    align-self: flex-end;
 }
 
+/* --- СТАТИСТИКА (ХАРАКТЕРИСТИКИ) --- */
 .stat {
     display: flex;
-    padding-bottom: 2px;
+    padding-bottom: 10px;
     justify-content: space-between;
     align-items: center;
     align-self: stretch;
@@ -83,12 +52,47 @@
 
 .statLabel,
 .statValue {
-    color: #121212;
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 120%;
+    color: rgba(0, 0, 0, 0.90);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%; /* 24px */
+    text-transform: uppercase;
 }
 
+/* --- ІКОНКА ДЛЯ НОВОЇ КНОПКИ --- */
+.arrowIcon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-color: currentColor;
+    -webkit-mask-image: url('/arrow.svg');
+    mask-image: url('/arrow.svg');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    vertical-align: middle;
+    align-self: center;
+    transition: transform 0.3s ease;
+}
+
+.arrowIconOpen {
+    transform: rotate(90deg); /* Повертає стрілку вниз, коли конфігуратор відкритий */
+}
+
+.desktopBtn {
+    /* Button сам розтягнеться завдяки fullWidth */
+}
+
+.mobileBtn {
+    display: none;
+    width: 100%;
+}
+
+/* --- СЛАЙДЕР ТА 3D --- */
 .mainRow {
     display: flex;
     width: 100%;
@@ -110,10 +114,10 @@
 
 .threeD {
     position: absolute;
-    left: 0;
+    right: 0;
     top: 0;
-    width: 45px;
-    height: 45px;
+    width: 24px;
+    height: 24px;
     border: 0;
     background: transparent;
     padding: 0;
@@ -159,77 +163,102 @@
     filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.12));
 }
 
+/* --- КОНТРОЛИ СЛАЙДЕРА --- */
 .controls {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
+    gap: 32px; /* Відстань між індикаторами та кнопками */
 }
 
+/* --- ІНДИКАТОРИ --- */
 .indicators {
     display: flex;
     align-items: center;
-    gap: var(--s1);
+    gap: 9px; /* Відступ між індикаторами */
+    flex: 1; /* Дозволяємо блоку індикаторів зайняти весь доступний простір зліва */
 }
 
 .dot {
-    width: 13px;
-    height: 13px;
-    border-radius: 20px;
-    background: rgba(18, 18, 18, 0.12);
-    transition: width 260ms ease, background-color 260ms ease, opacity 260ms ease;
+    height: 8px; /* Висота смужки */
+    width: 26px; /* Ширина неактивного індикатора */
+    flex: 0 0 26px; /* Забороняємо стискатись або розтягуватись */
+    border-radius: 4px;
+    background: rgba(18, 18, 18, 0.2);
+    transition: all 300ms ease;
 }
 
 .dotActive {
-    width: 58px;
+    flex: 1; /* Активний індикатор забирає весь вільний залишок ширини */
     background: #121212;
 }
 
+/* --- КНОПКИ (СТРІЛКИ СЛАЙДЕРА) --- */
 .arrows {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    gap: 24px;
+    gap: 8px; /* Відстань між самими кнопками */
 }
 
 .arrowBtn {
-    width: 45px;
-    height: 45px;
+    width: 32px;
+    height: 32px;
     padding: 0;
-    border: 0;
-    background: transparent;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    display: grid;
-    place-items: center;
-    transition: transform 140ms ease, opacity 140ms ease, filter 140ms ease;
+    transition: all 200ms ease;
+
+    /* СТИЛІ АКТИВНОГО СТАНУ */
+    background: #060319;
+    border: 1px solid rgba(0, 0, 0, 0.9);
+    color: #ffffff; /* currentColor для білої стрілки */
 }
 
-.arrowBtn:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
+.arrowBtn:hover:not(:disabled) {
+    background: #121212;
 }
 
-.arrowBtn:active {
-    transform: translateY(0px);
-    opacity: 0.85;
+.arrowBtn:active:not(:disabled) {
+    transform: translateY(1px);
 }
 
-.arrowDisabled,
+/* СТИЛІ НЕАКТИВНОГО СТАНУ */
 .arrowBtn:disabled {
-    opacity: 0.35;
+    background: rgba(0, 0, 0, 0.1);
+    border-color: transparent;
+    color: rgba(0, 0, 0, 0.4); /* currentColor для напівпрозорої чорної стрілки */
     cursor: not-allowed;
-    transform: none;
-    filter: grayscale(1);
 }
 
-.arrowIcon {
+/* Сама SVG іконка через CSS-маску */
+.arrowIconImg {
     display: block;
+    width: 32px;
+    height: 32px;
+
+    /* Колір маски автоматично береться з currentColor кнопки */
+    background-color: currentColor;
+
+    /* Підключаємо файл зі стрілкою (переконайся, що він у папці public з цією назвою) */
+    -webkit-mask-image: url('/btn-arrow.svg');
+    mask-image: url('/btn-arrow.svg');
+
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
 }
 
 .arrowRight {
     transform: rotate(180deg);
 }
 
+/* --- ПАНЕЛЬ КОНФІГУРАТОРА --- */
 .configuratorPanel {
     flex: 0 0 0px;
     width: 0;
@@ -255,6 +284,7 @@
     justify-content: flex-end;
 }
 
+/* --- МЕДІА ЗАПИТИ --- */
 @media (max-width: 1100px) {
     .configuratorPanelOpen {
         flex: 0 0 400px;
@@ -274,11 +304,6 @@
 
     .mobileBtn {
         display: flex;
-    }
-
-    .right {
-        width: 100%;
-        max-width: 100%;
     }
 
     .mainRow {

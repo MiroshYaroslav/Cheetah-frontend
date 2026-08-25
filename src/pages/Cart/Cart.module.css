@@ -433,18 +433,17 @@
     .cartCard {
         flex-direction: column;
         height: auto;
-        align-items: stretch; /* Дозволяємо внутрішнім блокам тягнутися на всю ширину */
+        align-items: stretch;
     }
 
-    /* Примусово розтягуємо ліву і праву частини на 100% */
     .left, .right {
         width: 100%;
-        flex: none; /* Скидаємо flex, щоб він не ламав висоту в колонці */
+        flex: none;
     }
 
     .cardImageWrap {
-        flex: 1; /* Замінили none на 1, щоб він гнучко заповнив залишок місця */
-        width: auto; /* Прибрали 100%, яке чавило іконки */
+        flex: 1;
+        width: auto;
         height: 300px;
     }
 }

@@ -1,8 +1,8 @@
 import styles from "./SectionHeader.module.css";
-import React from "react";
+import React, { type ReactNode } from "react";
 
 type Props = {
-    title: string;
+    title: ReactNode;
     subtitle?: React.ReactNode;
     align?: "left" | "center";
 

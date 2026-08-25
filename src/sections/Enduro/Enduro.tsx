@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
-import { enduroBike } from "../../data/motorcycleData"; // Підключили єдиний об'єкт мотоцикла
+import { enduroBike } from "../../data/motorcycleData";
 import styles from "./Enduro.module.css";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import Configurator from "../../components/Configurator/Configurator";
@@ -10,7 +10,7 @@ export default function Enduro() {
     const [index, setIndex] = useState(0);
     const [isConfiguratorOpen, setIsConfiguratorOpen] = useState(false);
 
-    const images = enduroBike.images; // Беремо зображення з об'єкта
+    const images = enduroBike.images;
     const isFirst = index === 0;
     const isLast = index === images.length - 1;
 
@@ -26,12 +26,18 @@ export default function Enduro() {
         setIsConfiguratorOpen(!isConfiguratorOpen);
     };
 
+    // Оновлена кнопка конфігуратора
     const renderConfiguratorBtn = (className: string) => (
-        <Button onClick={toggleConfigurator} variant="primary" className={`${styles.btn} ${className}`}>
-            <span className={styles.text_btn}>{isConfiguratorOpen ? 'Close Configurator' : 'Configurator'}</span>
-            <span className={`${styles.icon} ${isConfiguratorOpen ? styles.iconOpen : ''}`}>
-                <img src="/arrow.svg" alt="arrow" />
-            </span>
+        <Button
+            onClick={toggleConfigurator}
+            variant="outline" // Прозорий фон, чорний текст і чорний бордер
+            fullWidth         // Розтягуємо на всю ширину батька
+            className={className}
+            iconRight={
+                <span className={`${styles.arrowIcon} ${isConfiguratorOpen ? styles.arrowIconOpen : ''}`} />
+            }
+        >
+            {isConfiguratorOpen ? 'CLOSE CONFIGURATOR' : 'CONFIGURATOR'}
         </Button>
     );
 
@@ -42,7 +48,7 @@ export default function Enduro() {
                     <div className={styles.top}>
                         <div className={styles.left}>
                             <SectionHeader
-                                title={enduroBike.name} // Динамічна назва мотоцикла
+                                title={enduroBike.name}
                                 subtitle={
                                     <>
                                         Experience the future of mobility with our lightweight, powerful electric motorcycles.<br />
@@ -56,7 +62,7 @@ export default function Enduro() {
                         </div>
 
                         <div className={styles.right}>
-                            {enduroBike.stats.map((s) => ( // Динамічні характеристики
+                            {enduroBike.stats.map((s) => (
                                 <div key={s.label} className={styles.stat}>
                                     <h2 className={styles.statLabel}>{s.label}</h2>
                                     <h2 className={styles.statValue}>{s.value}</h2>
@@ -90,23 +96,23 @@ export default function Enduro() {
 
                                 <div className={styles.arrows}>
                                     <button
-                                        className={`${styles.arrowBtn} ${isFirst ? styles.arrowDisabled : ""}`}
+                                        className={styles.arrowBtn}
                                         type="button"
                                         onClick={prev}
                                         aria-label="Previous image"
                                         disabled={isFirst}
                                     >
-                                        <img src="/btn-arrow.svg" alt="" className={styles.arrowIcon} />
+                                        <span className={styles.arrowIconImg} />
                                     </button>
 
                                     <button
-                                        className={`${styles.arrowBtn} ${isLast ? styles.arrowDisabled : ""}`}
+                                        className={styles.arrowBtn}
                                         type="button"
                                         onClick={next}
                                         aria-label="Next image"
                                         disabled={isLast}
                                     >
-                                        <img src="/btn-arrow.svg" alt="" className={`${styles.arrowIcon} ${styles.arrowRight}`} />
+                                        <span className={`${styles.arrowIconImg} ${styles.arrowRight}`} />
                                     </button>
                                 </div>
                             </div>

@@ -1,3 +1,89 @@
 .section {
-    border-bottom: 1px solid rgba(18, 18, 18, 0.12);
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: flex-start; /* Притискаємо до верху */
+    overflow: hidden;
+
+    min-height: 810px;
+    align-self: stretch;
+}
+
+/* --- ФОН ТА ЗАТЕМНЕННЯ --- */
+.bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.bgImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.85) 0%,
+            rgba(0, 0, 0, 0.40) 45%,
+            rgba(0, 0, 0, 0) 100%
+    );
+}
+
+/* --- КОНТЕНТ --- */
+
+/* Додаємо .section спереду для вищого пріоритету CSS над Container */
+.section .inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+/* Дозволяємо контейнеру (і заголовку) займати всю доступну ширину */
+.content {
+    width: 100%;
+}
+
+/* Звертаємося безпосередньо до тексту (підзаголовка) всередині SectionHeader */
+.content p {
+    max-width: 495px; /* На великих екранах текст не буде ширшим за 495px */
+    width: 100%;      /* На малих екранах текст автоматично стиснеться */
+}
+
+/* Обнуляємо стандартні відступи SectionHeader всередині секції About */
+.section .content > div {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* --- АДАПТИВНІСТЬ ДЛЯ МЕНШИХ ЕКРАНІВ --- */
+
+/* ПЛАНШЕТИ (до 768px) */
+@media (max-width: 768px) {
+    .section {
+        min-height: 557px;
+    }
+}
+
+/* МОБІЛЬНІ ТЕЛЕФОНИ (до 480px або 500px) */
+@media (max-width: 500px) {
+    .section {
+        min-height: 501px;
+    }
+
+    /* Сильніше затемнення для мобілок, щоб текст краще читався */
+    .overlay {
+        background: linear-gradient(
+                90deg,
+                rgba(0, 0, 0, 0.90) 0%,
+                rgba(0, 0, 0, 0.60) 65%,
+                rgba(0, 0, 0, 0.2) 100%
+        );
+    }
 }

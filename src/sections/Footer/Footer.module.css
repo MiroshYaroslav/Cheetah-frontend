@@ -1,42 +1,90 @@
 .footer {
-    padding: 60px 0;
+    border-top: 1px solid  rgba(0, 0, 0, 0.10);
     background: transparent;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
     align-self: stretch;
 }
 
-.navSection {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    align-self: stretch;
+.footer .footerContainer {
+    padding-bottom: 32px;
+    padding-top: 32px;
 }
 
-.contactSection {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 40px;
-    padding-bottom: 16px;
+/* --- ВЕРХНЯ ЧАСТИНА (СІТКА) --- */
+.topRow {
+    display: grid;
+    /* Кожна колонка займає лише ширину свого контенту */
+    grid-template-columns: auto auto auto auto;
+    /* Притискаємо всі колонки до лівого краю */
+    justify-content: flex-start;
+    gap: 32px;
+    width: 100%;
+    padding-bottom: 8px;
 }
 
-.leftBlock {
+/* Колонка Контактів */
+.colContacts {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: 8px;
 }
 
-.logoImg {
-    width: 40px;
-    height: 40px;
-    display: block;
-    filter: brightness(0);
+.address,
+.contactLabel,
+.contactLink {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 21px */
 }
 
+.address {
+    color: rgba(0, 0, 0, 0.90);
+}
+
+.contactItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.contactLabel {
+    color: rgba(0, 0, 0, 0.70);
+}
+
+.contactLink {
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+    transition: opacity 0.2s ease;
+}
+
+.contactLink:hover {
+    opacity: 0.7;
+}
+
+/* Кнопка копіювання */
+.copyBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: #121212;
+    display: grid;
+    place-items: center;
+    transition: opacity 0.2s ease;
+}
+
+.copyBtn:hover {
+    opacity: 0.6;
+}
+
+/* Соціальні мережі */
 .socials {
     display: flex;
     gap: 16px;
@@ -58,84 +106,93 @@
     display: block;
 }
 
-.locationBlock {
+/* Колонки з навігацією */
+.colLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 12px;
+}
+
+.colTitle {
+    color: rgba(0, 0, 0, 0.70);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%; /* 14px */
+}
+
+.navGroup {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.locationTitle {
-    color: #121212;
-
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-    "Segoe UI", Roboto, Arial, sans-serif;
-    font-size: 18px;
+.link {
+    color: rgba(0, 0, 0, 0.90);
+    font-size: 14px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 150%; /* 27px */
+    font-weight: 700;
+    line-height: 150%; /* 21px */
+    padding: 4px 0;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
 }
 
-.locationText {
-    color: #121212;
-    text-align: center;
+.link:hover {
+    opacity: 0.6;
+}
 
-    /* body/sm */
-    font-family: Roboto, sans-serif;
+/* --- СЕРЕДНЯ ЧАСТИНА (Копірайт і лінія) --- */
+.bottomSection {
+    border-top: 1px solid rgba(18, 18, 18, 0.12);
+    padding-top: 8px;
+    padding-bottom: 32px;
+    width: 100%;
+}
+
+.copy {
+    color: rgba(0, 0, 0, 0.70);
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 150%; /* 21px */
 }
 
-.nav {
+/* --- НИЖНЯ ЧАСТИНА (Величезний логотип) --- */
+.giantLogoWrap {
+    width: 100%;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 16px;
+    padding-bottom: 8px; /* Відступ до кінця сторінки */
 }
 
-.link {
-    color: #121212;
-    text-align: center;
-
-    /* body/md */
-    font-family: Roboto, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%; /* 24px */
-    transition: opacity 0.2s ease;
+.giantLogo {
+    width: 100%; /* Займає 100% ширини контейнера */
+    height: auto;
+    display: block;
 }
 
-.link:hover {
-    opacity: 0.7;
-}
+/* --- АДАПТИВНІСТЬ --- */
 
-.bottomSection {
-    border-top: 1px solid rgba(18, 18, 18, 0.12);
-    padding-top: 16px;
-}
-
-.copy {
-    color: rgba(18, 18, 18, 0.6);
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.5;
-}
-
-.copy span {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-}
-
-@media (max-width: 768px) {
-    .footer {
-        padding-top: 0;
+@media (max-width: 1024px) {
+    .topRow {
+        /* На планшетах 2 колонки по ширині контенту */
+        grid-template-columns: auto auto;
+        gap: 60px 32px;
     }
 }
 
-@media (max-width: 660px) {
-   .nav {
-       display: none;
-   }
-}
+@media (max-width: 600px) {
+    .topRow {
+        /* На мобільних 1 колонка */
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
 
+    .footer {
+        padding-top: 40px;
+    }
+}

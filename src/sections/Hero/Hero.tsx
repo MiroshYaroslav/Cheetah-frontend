@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
 import styles from "./Hero.module.css";
-import SectionHeader from "../../components/SectionHeader/SectionHeader.tsx";
+import SectionHeader from "../../components/SectionHeader/SectionHeader";
 
 export default function Hero() {
     const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -47,7 +47,12 @@ export default function Hero() {
                 <div className={styles.content}>
                     <div className={styles.top}>
                         <SectionHeader
-                            title="CHEETAH"
+                            title={
+                                <span className={styles.titleWrapper}>
+                                    <img src="/logo.svg" alt="Cheetah Logo" className={styles.titleLogo} />
+                                    CHEETAH
+                                </span>
+                            }
                             subtitle={
                                 <>
                                     Experience the future of mobility with our lightweight, powerful electric motorcycles.<br />
@@ -60,22 +65,21 @@ export default function Hero() {
                             subtitleAlign="left"/>
 
                         <div className={styles.ctaRow}>
-                            <Button className={styles.heroBtn} variant="secondary">
-                                View models
+                            <Button
+                                className={styles.heroBtn}
+                                variant="secondary"
+                                fullWidth
+                                iconRight={<span className={styles.arrowIcon} />}
+                            >
+                                VIEW MODELS
                             </Button>
                         </div>
                     </div>
 
                     <div className={styles.bottom}>
-                        <div className={styles.features}>
-                            <div className={styles.feature}>
-                                <div className={styles.featureTitle}>Charge</div>
-                                <div className={styles.featureText}>The battery capacity is sufficient for active driving</div>
-                            </div>
-                            <div className={styles.feature}>
-                                <div className={styles.featureTitle}>Quick and easy</div>
-                                <div className={styles.featureText}>Easy to drive</div>
-                            </div>
+                        {/* НОВИЙ БЛОК ТЕКСТУ */}
+                        <div className={styles.bottomText}>
+                            Charge: The battery capacity is sufficient for active driving
                         </div>
 
                         <div className={styles.bottomBtn}>
@@ -88,10 +92,8 @@ export default function Hero() {
                             >
                                 {paused ? (
                                     <img src="/play-icon.svg" alt="Play"/>
-
                                 ) : (
                                     <img src="/pause-icon.svg" alt="Pause"/>
-
                                 )}
                             </button>
                         </div>

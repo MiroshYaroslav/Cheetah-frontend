@@ -1,0 +1,121 @@
+.card {
+    display: flex;
+    width: 100%;
+    max-width: 405px;
+    min-height: 414px;
+    padding: 16px;
+    flex-direction: column;
+    gap: 8px; /* Відстань між Фото та Інфо-блоком */
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid rgba(18, 18, 18, 0.1);
+}
+
+/* --- ВЕРХНЯ ЧАСТИНА (ЗОБРАЖЕННЯ) --- */
+.imageWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1; /* Забирає вільний простір, щоб притиснути контент донизу */
+    min-height: 180px;
+}
+
+.imageWrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* --- НИЖНЯ ЧАСТИНА (ІНФОРМАЦІЯ) --- */
+.infoWrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Притискаємо елементи донизу */
+    gap: 16px; /* Відстань між назвою, блоком кольорів та футером */
+}
+
+.title {
+    color: #121212;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 120%;
+}
+
+/* --- БЛОК КОЛЬОРІВ --- */
+.colorSection {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Відстань між написом "Colour" та кружечками */
+}
+
+.colorLabel {
+    color: rgba(18, 18, 18, 0.6);
+    font-size: 14px;
+    margin: 0;
+}
+
+.swatches {
+    display: flex;
+    gap: 8px;
+}
+
+.swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid rgba(18, 18, 18, 0.2);
+    padding: 0;
+    cursor: pointer;
+    transition: outline 0.2s ease;
+}
+
+.swatchActive {
+    outline: 2px solid #121212;
+    outline-offset: 2px;
+}
+
+/* --- ФУТЕР (Ціна та Кнопки) --- */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.price {
+    color: #121212;
+    font-size: 20px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* Кнопка BUY */
+.buyBtn {
+    flex: 1; /* Кнопка розтягується поруч з ціною */
+    /* Всі інші стилі (background, color, hover, padding, border-radius)
+       тепер автоматично підтягуються з твого Button.module.css! */
+}
+
+/* Плашка, коли товару немає в наявності */
+.outOfStock {
+    display: flex;
+    height: 24px;
+    padding: 4px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    width: 100%;
+
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.05);
+
+    color: rgba(0, 0, 0, 0.90);
+    text-align: right;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%; /* 14px */
+}
