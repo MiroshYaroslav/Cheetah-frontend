@@ -11,6 +11,7 @@ export interface CartItemType {
         frameLabel: string;
         plasticLabel: string;
         tiresLabel: string;
+        specs?: string; // <--- ДОДАЛИ ЦЕЙ РЯДОК
     };
     stats?: {
         weight: string;

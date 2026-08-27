@@ -8,7 +8,7 @@
     max-width: 1776px;
     flex-direction: column;
     align-items: flex-start;
-    gap: 40px;
+    gap: 32px;
     flex: 1 0 0;
     align-self: stretch;
 }
@@ -22,25 +22,39 @@
     flex-wrap: wrap;
 }
 
-/* --- ГНУЧКІ КОЛОНКИ --- */
 .left {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--s3);
-    flex: 1; /* Дозволяємо вільно розтягуватись */
+    flex: 1;
+}
+
+/* Додаємо плавну появу заголовка при перемиканні слайдів */
+.animatedTitleWrapper {
+    animation: fadeSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .right {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: var(--s4);
+    gap: var(--s1);
     flex: 1;
     align-self: flex-end;
 }
 
-/* --- СТАТИСТИКА (ХАРАКТЕРИСТИКИ) --- */
 .stat {
     display: flex;
     padding-bottom: 10px;
@@ -53,14 +67,12 @@
 .statLabel,
 .statValue {
     color: rgba(0, 0, 0, 0.90);
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 150%; /* 24px */
     text-transform: uppercase;
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 150%;
 }
 
-/* --- ІКОНКА ДЛЯ НОВОЇ КНОПКИ --- */
 .arrowIcon {
     display: inline-block;
     width: 24px;
@@ -80,29 +92,19 @@
 }
 
 .arrowIconOpen {
-    transform: rotate(90deg); /* Повертає стрілку вниз, коли конфігуратор відкритий */
+    transform: rotate(90deg);
 }
 
-.desktopBtn {
-    /* Button сам розтягнеться завдяки fullWidth */
-}
-
-.mobileBtn {
-    display: none;
-    width: 100%;
-}
-
-/* --- СЛАЙДЕР ТА 3D --- */
 .mainRow {
     display: flex;
     width: 100%;
     gap: 0;
-    align-items: flex-start;
+    align-items: stretch; /* ЗМІНЕНО: розтягує конфігуратор до низу блоку фотографій */
     transition: gap 400ms ease;
 }
 
 .mainRowOpen {
-    gap: 40px;
+    gap: 32px;
 }
 
 .bikeWrap {
@@ -163,41 +165,38 @@
     filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.12));
 }
 
-/* --- КОНТРОЛИ СЛАЙДЕРА --- */
 .controls {
     display: flex;
     align-items: center;
     width: 100%;
-    gap: 32px; /* Відстань між індикаторами та кнопками */
+    gap: 32px;
 }
 
-/* --- ІНДИКАТОРИ --- */
 .indicators {
     display: flex;
     align-items: center;
-    gap: 9px; /* Відступ між індикаторами */
-    flex: 1; /* Дозволяємо блоку індикаторів зайняти весь доступний простір зліва */
+    gap: 9px;
+    flex: 1;
 }
 
 .dot {
-    height: 8px; /* Висота смужки */
-    width: 26px; /* Ширина неактивного індикатора */
-    flex: 0 0 26px; /* Забороняємо стискатись або розтягуватись */
+    height: 8px;
+    width: 26px;
+    flex: 0 0 26px;
     border-radius: 4px;
     background: rgba(18, 18, 18, 0.2);
     transition: all 300ms ease;
 }
 
 .dotActive {
-    flex: 1; /* Активний індикатор забирає весь вільний залишок ширини */
+    flex: 1;
     background: #121212;
 }
 
-/* --- КНОПКИ (СТРІЛКИ СЛАЙДЕРА) --- */
 .arrows {
     display: flex;
     align-items: center;
-    gap: 8px; /* Відстань між самими кнопками */
+    gap: 8px;
 }
 
 .arrowBtn {
@@ -210,11 +209,9 @@
     align-items: center;
     cursor: pointer;
     transition: all 200ms ease;
-
-    /* СТИЛІ АКТИВНОГО СТАНУ */
     background: #060319;
     border: 1px solid rgba(0, 0, 0, 0.9);
-    color: #ffffff; /* currentColor для білої стрілки */
+    color: #ffffff;
 }
 
 .arrowBtn:hover:not(:disabled) {
@@ -225,27 +222,20 @@
     transform: translateY(1px);
 }
 
-/* СТИЛІ НЕАКТИВНОГО СТАНУ */
 .arrowBtn:disabled {
     background: rgba(0, 0, 0, 0.1);
     border-color: transparent;
-    color: rgba(0, 0, 0, 0.4); /* currentColor для напівпрозорої чорної стрілки */
+    color: rgba(0, 0, 0, 0.4);
     cursor: not-allowed;
 }
 
-/* Сама SVG іконка через CSS-маску */
 .arrowIconImg {
     display: block;
     width: 32px;
     height: 32px;
-
-    /* Колір маски автоматично береться з currentColor кнопки */
     background-color: currentColor;
-
-    /* Підключаємо файл зі стрілкою (переконайся, що він у папці public з цією назвою) */
     -webkit-mask-image: url('/btn-arrow.svg');
     mask-image: url('/btn-arrow.svg');
-
     -webkit-mask-size: contain;
     mask-size: contain;
     -webkit-mask-repeat: no-repeat;
@@ -265,49 +255,37 @@
     min-width: 0;
     opacity: 0;
     visibility: hidden;
+    overflow: hidden;
     transform: translateX(40px);
     transition: flex-basis 400ms ease, width 400ms ease, min-width 400ms ease, opacity 400ms ease, visibility 400ms, transform 400ms ease;
 }
 
 .configuratorPanelOpen {
-    flex: 0 0 450px;
-    width: 450px;
-    min-width: 450px;
+    flex: 0 0 344px; /* ЗМІНЕНО: Фіксована ширина для десктопу */
+    width: 344px;
+    min-width: 344px;
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
 }
 
+.configuratorBtnOpen {
+    background-color: rgba(0, 0, 0, 0.20) !important;
+}
+
 .configuratorContent {
-    width: 450px;
+    width: 344px;
+    height: 100%; /* Розтягуємо контейнер на всю доступну висоту */
     display: flex;
     justify-content: flex-end;
 }
 
-/* --- МЕДІА ЗАПИТИ --- */
-@media (max-width: 1100px) {
-    .configuratorPanelOpen {
-        flex: 0 0 400px;
-        width: 400px;
-        min-width: 400px;
-    }
-
-    .configuratorContent {
-        width: 400px;
-    }
-}
-
-@media (max-width: 768px) {
-    .desktopBtn {
-        display: none;
-    }
-
-    .mobileBtn {
-        display: flex;
-    }
+/* --- МЕДІА ЗАПИТИ (1024px breakpoint) --- */
+@media (max-width: 1024px) {
 
     .mainRow {
-        flex-direction: column;
+        flex-direction: column; /* Конфігуратор падає під слайдер */
+        align-items: stretch;
     }
 
     .configuratorPanel {
@@ -331,7 +309,27 @@
 
     .configuratorContent {
         width: 100%;
-        display: flex;
         justify-content: center;
+    }
+}
+
+/* --- МЕДІА ЗАПИТИ (768px breakpoint) --- */
+@media (max-width: 768px) {
+    .top {
+        flex-direction: column;
+        gap: 24px; /* Трохи зменшуємо відступ між кнопкою та статистикою для мобілок */
+    }
+
+    .left,
+    .right {
+        width: 100%; /* Змушуємо блоки займати всю ширину */
+        flex: none;
+        align-self: stretch;
+    }
+
+    .right {
+        /* Вирівнюємо статистику по лівому краю на мобільних пристроях.
+           Якщо хочеш, щоб вона залишалася справа - просто видали цей рядок */
+        align-items: flex-start;
     }
 }

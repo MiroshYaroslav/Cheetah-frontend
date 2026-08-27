@@ -83,7 +83,6 @@ export default function Navbar() {
                         <button className={`${styles.langBtn} ${styles.langInactive}`} type="button">
                             EN
                         </button>
-                        <span className={styles.langDivider} />
                         <button className={`${styles.langBtn} ${styles.langActive}`} type="button">
                             UA
                         </button>

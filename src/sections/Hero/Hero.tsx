@@ -25,6 +25,13 @@ export default function Hero() {
         }
     };
 
+    const scrollToEnduro = () => {
+        const enduroSection = document.getElementById("model");
+        if (enduroSection) {
+            enduroSection.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     return (
         <section id="top" className={styles.hero}>
             <div className={styles.bg} aria-hidden="true">
@@ -48,10 +55,11 @@ export default function Hero() {
                     <div className={styles.top}>
                         <SectionHeader
                             title={
-                                <span className={styles.titleWrapper}>
-                                    <img src="/logo.svg" alt="Cheetah Logo" className={styles.titleLogo} />
-                                    CHEETAH
-                                </span>
+                                /* Замінили img на span для використання CSS-маски */
+                                <span
+                                    className={styles.giantTitleLogo}
+                                    aria-label="CHEETAH"
+                                />
                             }
                             subtitle={
                                 <>
@@ -62,17 +70,21 @@ export default function Hero() {
                             align="left"
                             titleColor="var(--bg)"
                             subtitleColor="var(--bg)"
-                            subtitleAlign="left"/>
+                            subtitleAlign="left"
+                        />
 
                         <div className={styles.ctaRow}>
-                            <Button
-                                className={styles.heroBtn}
-                                variant="secondary"
-                                fullWidth
-                                iconRight={<span className={styles.arrowIcon} />}
-                            >
-                                VIEW MODELS
-                            </Button>
+                            <div className={styles.ctaRow}>
+                                <Button
+                                    className={styles.heroBtn}
+                                    variant="secondary"
+                                    fullWidth
+                                    iconRight={<span className={styles.arrowIcon} />}
+                                    onClick={scrollToEnduro} /* <--- Додано сюди */
+                                >
+                                    VIEW MODELS
+                                </Button>
+                            </div>
                         </div>
                     </div>
 

@@ -5,19 +5,18 @@
     justify-content: center; /* За замовчуванням контент по центру */
     gap: 12px;
 
-    border-radius: 4px;
+    border-radius: 8px;
     border: 1px solid transparent;
 
     cursor: pointer;
     user-select: none;
     text-decoration: none;
 
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Arial, sans-serif;
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
     line-height: 150%;
-
+    text-transform: uppercase;
     transition: all 120ms ease;
 }
 

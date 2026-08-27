@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
 import { enduroBike } from "../../data/motorcycleData";
@@ -10,9 +10,14 @@ export default function Enduro() {
     const [index, setIndex] = useState(0);
     const [isConfiguratorOpen, setIsConfiguratorOpen] = useState(false);
 
-    const images = enduroBike.images;
+    // 1. Створюємо Ref для панелі конфігуратора
+    const configuratorRef = useRef<HTMLDivElement>(null);
+
+    const variants = enduroBike.variants;
+    const currentVariant = variants[index];
+
     const isFirst = index === 0;
-    const isLast = index === images.length - 1;
+    const isLast = index === variants.length - 1;
 
     const prev = () => {
         if (!isFirst) setIndex((i) => i - 1);
@@ -22,22 +27,43 @@ export default function Enduro() {
         if (!isLast) setIndex((i) => i + 1);
     };
 
+    // 2. Оновлюємо логіку перемикання з додаванням скролу
     const toggleConfigurator = () => {
-        setIsConfiguratorOpen(!isConfiguratorOpen);
+        const willOpen = !isConfiguratorOpen;
+        setIsConfiguratorOpen(willOpen);
+
+        if (willOpen && window.innerWidth <= 1024) {
+            setTimeout(() => {
+                if (configuratorRef.current) {
+                    // 1. Вкажи висоту вашого хедера + бажаний відступ у пікселях
+                    const offset = 120;
+
+                    // 2. Вираховуємо точну позицію елемента
+                    const elementPosition = configuratorRef.current.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.scrollY - offset;
+
+                    // 3. Плавно скролимо туди
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            }, 100); // Можливо, тут доведеться збільшити затримку до 200-300, якщо CSS анімація довга
+        }
     };
 
-    // Оновлена кнопка конфігуратора
-    const renderConfiguratorBtn = (className: string) => (
+    // 3. Спрощуємо кнопку (більше не передаємо класи типу mobileBtn)
+    const renderConfiguratorBtn = () => (
         <Button
             onClick={toggleConfigurator}
-            variant="outline" // Прозорий фон, чорний текст і чорний бордер
-            fullWidth         // Розтягуємо на всю ширину батька
-            className={className}
+            variant="outline"
+            fullWidth
+            className={isConfiguratorOpen ? styles.configuratorBtnOpen : ''}
             iconRight={
                 <span className={`${styles.arrowIcon} ${isConfiguratorOpen ? styles.arrowIconOpen : ''}`} />
             }
         >
-            {isConfiguratorOpen ? 'CLOSE CONFIGURATOR' : 'CONFIGURATOR'}
+            CONFIGURATOR
         </Button>
     );
 
@@ -47,18 +73,21 @@ export default function Enduro() {
                 <div className={styles.content}>
                     <div className={styles.top}>
                         <div className={styles.left}>
-                            <SectionHeader
-                                title={enduroBike.name}
-                                subtitle={
-                                    <>
-                                        Experience the future of mobility with our lightweight, powerful electric motorcycles.<br />
-                                        Engineered for those who demand excellence.
-                                    </>
-                                }
-                                align="left"
-                                subtitleAlign="left"
-                            />
-                            {renderConfiguratorBtn(styles.desktopBtn)}
+                            <div key={currentVariant.id} className={styles.animatedTitleWrapper}>
+                                <SectionHeader
+                                    title={currentVariant.name}
+                                    subtitle={
+                                        <>
+                                            Experience the future of mobility with our lightweight, powerful electric motorcycles.<br />
+                                            Engineered for those who demand excellence.
+                                        </>
+                                    }
+                                    align="left"
+                                    subtitleAlign="left"
+                                />
+                            </div>
+                            {/* 4. Кнопка тепер ОДНА і завжди знаходиться тут! */}
+                            {renderConfiguratorBtn()}
                         </div>
 
                         <div className={styles.right}>
@@ -79,9 +108,9 @@ export default function Enduro() {
 
                             <div className={styles.viewport}>
                                 <div className={styles.track} style={{ transform: `translateX(-${index * 100}%)` }}>
-                                    {images.map((img, i) => (
-                                        <div className={styles.slide} key={`${img.src}-${i}`}>
-                                            <img className={styles.bike} src={img.src} alt={img.alt} loading="lazy" />
+                                    {variants.map((v, i) => (
+                                        <div className={styles.slide} key={`${v.id}-${i}`}>
+                                            <img className={styles.bike} src={v.image.src} alt={v.image.alt} loading="lazy" />
                                         </div>
                                     ))}
                                 </div>
@@ -89,7 +118,7 @@ export default function Enduro() {
 
                             <div className={styles.controls}>
                                 <div className={styles.indicators} aria-label="Slide indicators">
-                                    {images.map((_, i) => (
+                                    {variants.map((_, i) => (
                                         <span key={i} className={`${styles.dot} ${i === index ? styles.dotActive : ""}`} />
                                     ))}
                                 </div>
@@ -99,7 +128,6 @@ export default function Enduro() {
                                         className={styles.arrowBtn}
                                         type="button"
                                         onClick={prev}
-                                        aria-label="Previous image"
                                         disabled={isFirst}
                                     >
                                         <span className={styles.arrowIconImg} />
@@ -109,7 +137,6 @@ export default function Enduro() {
                                         className={styles.arrowBtn}
                                         type="button"
                                         onClick={next}
-                                        aria-label="Next image"
                                         disabled={isLast}
                                     >
                                         <span className={`${styles.arrowIconImg} ${styles.arrowRight}`} />
@@ -118,14 +145,17 @@ export default function Enduro() {
                             </div>
                         </div>
 
-                        <div className={`${styles.configuratorPanel} ${isConfiguratorOpen ? styles.configuratorPanelOpen : ''}`}>
+                        {/* 5. Чіпляємо наш Ref на обгортку конфігуратора */}
+                        <div
+                            ref={configuratorRef}
+                            className={`${styles.configuratorPanel} ${isConfiguratorOpen ? styles.configuratorPanelOpen : ''}`}
+                        >
                             <div className={styles.configuratorContent}>
-                                <Configurator onClose={() => setIsConfiguratorOpen(false)} />
+                                <Configurator onClose={() => setIsConfiguratorOpen(false)} variant={currentVariant} isOpen={isConfiguratorOpen} />
                             </div>
                         </div>
                     </div>
-
-                    {renderConfiguratorBtn(styles.mobileBtn)}
+                    {/* Видалено дублюючу мобільну кнопку звідси */}
                 </div>
             </Container>
         </section>

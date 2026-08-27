@@ -7,10 +7,8 @@ export const SHOP_SETTINGS = {
 export const navLinks: NavLink[] = [
     { label: "Model", href: "#model" },
     { label: "Parts", href: "#parts" },
-    { label: "Uniqueness", href: "#uniqueness" },
-    { label: "About", href: "#about" },
-    { label: "Q&A", href: "#qa" },
-    { label: "Get in touch", href: "#contact" },
+    { label: "About us", href: "#about" },
+    { label: "Faq", href: "#qa" },
 ];
 
 export const faqs: FAQItem[] = [

@@ -97,16 +97,69 @@
     gap: 10px;
 }
 
-.titleWrapper {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+/* --- НОВИЙ ВЕЛИКИЙ ЛОГОТИП В ЗАГОЛОВКУ (ЧЕРЕЗ МАСКУ) --- */
+.giantTitleLogo {
+    display: block;
+    width: 918px;
+    max-width: 100%;
+    height: 99px;
+    flex-shrink: 0;
+    aspect-ratio: 102/11;
+
+    /* 1. Задаємо потрібний колір фону */
+    background-color: #FCFCFC;
+
+    /* 2. Використовуємо SVG як трафарет (маску) */
+    -webkit-mask-image: url('/cheetah-huge.svg');
+    mask-image: url('/cheetah-huge.svg');
+
+    /* 3. Налаштовуємо позицію та розмір маски */
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: left center;
+    mask-position: left center;
 }
 
-.titleLogo {
-    height: 0.8em;
-    width: auto;
-    display: block;
+/* ... інші існуючі стилі (arrowIcon, videoToggle тощо) ... */
+
+@media (max-width: 1440px) {
+    .inner {
+        height: 924px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .giantTitleLogo {
+        width: 100%; /* Скидаємо фіксовану ширину, щоб працював align-self: stretch */
+        height: 75px;
+        align-self: stretch;
+        aspect-ratio: 120/13;
+    }
+}
+
+@media (max-width: 768px) {
+    .giantTitleLogo {
+        width: 100%; /* Скидаємо фіксовану ширину, щоб працював align-self: stretch */
+        height: 65px;
+        align-self: stretch;
+        aspect-ratio: 120/13;
+    }
+}
+
+/* Твій існуючий медіа-запит для 500px */
+@media (max-width: 500px) {
+    .inner {
+        height: 792px;
+    }
+
+    .giantTitleLogo {
+        width: 100%;
+        height: 37.105px;
+        align-self: stretch;
+        aspect-ratio: 437/47;
+    }
 }
 
 .arrowIcon {

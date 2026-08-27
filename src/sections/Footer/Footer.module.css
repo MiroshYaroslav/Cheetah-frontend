@@ -176,23 +176,21 @@
 }
 
 /* --- АДАПТИВНІСТЬ --- */
-
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .topRow {
-        /* На планшетах 2 колонки по ширині контенту */
-        grid-template-columns: auto auto;
-        gap: 60px 32px;
-    }
-}
-
-@media (max-width: 600px) {
-    .topRow {
-        /* На мобільних 1 колонка */
-        grid-template-columns: 1fr;
-        gap: 32px;
+        /* Створюємо 3 рівні колонки для блоків навігації (Products, Info, Legal) */
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        /* 32px вертикальний відступ (між контактами і навігацією), 12px горизонтальний */
+        gap: 32px 12px;
     }
 
-    .footer {
-        padding-top: 40px;
+    .colContacts {
+        /* Магія Grid: змушуємо блок контактів зайняти весь перший рядок (від першої до останньої лінії) */
+        grid-column: 1 / -1;
+    }
+
+    .colLinks {
+        /* Прибираємо бокові падінги, щоб навігація мала більше місця на вузьких екранах */
+        padding: 0;
     }
 }
