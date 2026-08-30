@@ -176,12 +176,13 @@
 }
 
 .q {
-    color: #121212;
     flex: 1 1 auto;
-    font-family: "SF Pro", sans-serif; /* Браузер буде змушений шукати саме це ім'я */
+    color: rgba(0, 0, 0, 0.90);
+    text-wrap-style: balance;
     font-size: 18px;
+    font-style: normal;
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 150%; /* 27px */
 }
 
 .iconBtn {

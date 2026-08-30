@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "../../store/cartStore";
 import { enduroBike } from "../../data/motorcycleData";
@@ -24,11 +24,16 @@ interface OptionSelectorProps {
 function OptionSelector({ options, selectedId, onChange }: OptionSelectorProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const selectedIdRef = useRef(selectedId);
-    selectedIdRef.current = selectedId;
+
+    // Оновлюємо ref безпечно, без помилок під час рендеру
+    useLayoutEffect(() => {
+        selectedIdRef.current = selectedId;
+    }, [selectedId]);
 
     const [sliderStyle, setSliderStyle] = useState({
         width: 0,
-        transform: "translateX(0px)",
+        height: 0,
+        transform: "translate(0px, 0px)",
         opacity: 0,
         transition: "none",
     });
@@ -43,10 +48,11 @@ function OptionSelector({ options, selectedId, onChange }: OptionSelectorProps) 
         if (activeItem && activeItem.offsetWidth > 0) {
             setSliderStyle({
                 width: activeItem.offsetWidth,
-                transform: `translateX(${activeItem.offsetLeft}px)`,
+                height: activeItem.offsetHeight,
+                transform: `translate(${activeItem.offsetLeft}px, ${activeItem.offsetTop}px)`,
                 opacity: 1,
                 transition: animate
-                    ? "transform 300ms cubic-bezier(0.4, 0, 0.2, 1), width 300ms cubic-bezier(0.4, 0, 0.2, 1)"
+                    ? "transform 300ms cubic-bezier(0.4, 0, 0.2, 1), width 300ms cubic-bezier(0.4, 0, 0.2, 1), height 300ms cubic-bezier(0.4, 0, 0.2, 1)"
                     : "none",
             });
         }
@@ -112,15 +118,7 @@ function OptionSelector({ options, selectedId, onChange }: OptionSelectorProps) 
                         {opt.color && !opt.icon && (
                             <span
                                 className={styles.colorCircle}
-                                style={{
-                                    backgroundColor: opt.color,
-                                    border:
-                                        opt.color === "#FFFFFF"
-                                            ? "1px solid #E5E5E5"
-                                            : opt.color === "#000000" && !isActive
-                                                ? "1px solid transparent"
-                                                : "1px solid rgba(255,255,255,0.2)",
-                                }}
+                                style={{ backgroundColor: opt.color }}
                             />
                         )}
                         <span className={styles.optionLabel}>{opt.label}</span>
@@ -138,12 +136,14 @@ export default function Configurator({ onClose, variant, isOpen }: ConfiguratorP
 
     const [activeTab, setActiveTab] = useState<Tab>("colors");
 
-    // Завжди скидаємо таб на "colors", коли панель ВІДКРИВАЄТЬСЯ
-    useEffect(() => {
+    // Завжди скидаємо таб на "colors", коли панель ВІДКРИВАЄТЬСЯ (без подвійного рендеру)
+    const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+    if (isOpen !== prevIsOpen) {
+        setPrevIsOpen(isOpen);
         if (isOpen) {
             setActiveTab("colors");
         }
-    }, [isOpen]);
+    }
 
     // Ініціалізація стейту характеристик
     const [selectedSpecs, setSelectedSpecs] = useState<Record<string, string>>(() => {
@@ -156,7 +156,7 @@ export default function Configurator({ onClose, variant, isOpen }: ConfiguratorP
         return initialSpecs;
     });
 
-    // Патерн "Derived State": безпечно оновлюємо характеристики, якщо змінився мотоцикл
+    // Безпечно оновлюємо характеристики, якщо змінився мотоцикл (без подвійного рендеру)
     const [currentVariantId, setCurrentVariantId] = useState(variant.id);
     if (variant.id !== currentVariantId) {
         setCurrentVariantId(variant.id);

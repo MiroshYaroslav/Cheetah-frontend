@@ -122,7 +122,6 @@
     mask-position: left center;
 }
 
-/* ... інші існуючі стилі (arrowIcon, videoToggle тощо) ... */
 
 @media (max-width: 1440px) {
     .inner {

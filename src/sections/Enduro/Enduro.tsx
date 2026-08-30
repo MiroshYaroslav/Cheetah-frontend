@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCartStore } from "../../store/cartStore";
 import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
 import { enduroBike } from "../../data/motorcycleData";
@@ -7,10 +9,12 @@ import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import Configurator from "../../components/Configurator/Configurator";
 
 export default function Enduro() {
+    const navigate = useNavigate();
+    const addItem = useCartStore((state) => state.addItem);
+
     const [index, setIndex] = useState(0);
     const [isConfiguratorOpen, setIsConfiguratorOpen] = useState(false);
 
-    // 1. Створюємо Ref для панелі конфігуратора
     const configuratorRef = useRef<HTMLDivElement>(null);
 
     const variants = enduroBike.variants;
@@ -27,7 +31,6 @@ export default function Enduro() {
         if (!isLast) setIndex((i) => i + 1);
     };
 
-    // 2. Оновлюємо логіку перемикання з додаванням скролу
     const toggleConfigurator = () => {
         const willOpen = !isConfiguratorOpen;
         setIsConfiguratorOpen(willOpen);
@@ -35,24 +38,52 @@ export default function Enduro() {
         if (willOpen && window.innerWidth <= 1024) {
             setTimeout(() => {
                 if (configuratorRef.current) {
-                    // 1. Вкажи висоту вашого хедера + бажаний відступ у пікселях
                     const offset = 120;
-
-                    // 2. Вираховуємо точну позицію елемента
                     const elementPosition = configuratorRef.current.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.scrollY - offset;
 
-                    // 3. Плавно скролимо туди
                     window.scrollTo({
                         top: offsetPosition,
                         behavior: "smooth"
                     });
                 }
-            }, 100); // Можливо, тут доведеться збільшити затримку до 200-300, якщо CSS анімація довга
+            }, 100);
         }
     };
 
-    // 3. Спрощуємо кнопку (більше не передаємо класи типу mobileBtn)
+    // Логіка швидкої покупки (коли купують прямо з головного екрана без налаштувань)
+    const handleQuickBuy = () => {
+        const frame = enduroBike.configOptions.frame[0];
+        const plastic = enduroBike.configOptions.plastic[0];
+        const tires = enduroBike.configOptions.tires[0];
+
+        const specsLabels = currentVariant.specs.map(specCat => {
+            const opt = specCat.options[0]; // Беремо першу (базову) опцію
+            return `${specCat.title}: ${opt?.label}`;
+        }).join("; ");
+
+        addItem({
+            id: `${enduroBike.id}-${currentVariant.id}-default`,
+            name: currentVariant.name,
+            price: enduroBike.basePrice,
+            image: currentVariant.image.src,
+            quantity: 1,
+            config: {
+                frameLabel: frame.label,
+                plasticLabel: plastic.label,
+                tiresLabel: tires.label,
+                specs: specsLabels
+            },
+            stats: {
+                weight: enduroBike.stats.find((s) => s.label === "Weight")?.value || "114 kg",
+                speed: enduroBike.stats.find((s) => s.label === "Maximum speed")?.value || "40 km/h",
+                cooling: enduroBike.stats.find((s) => s.label === "Cooling")?.value || "Liquid",
+            },
+        });
+
+        navigate("/cart");
+    };
+
     const renderConfiguratorBtn = () => (
         <Button
             onClick={toggleConfigurator}
@@ -86,8 +117,25 @@ export default function Enduro() {
                                     subtitleAlign="left"
                                 />
                             </div>
-                            {/* 4. Кнопка тепер ОДНА і завжди знаходиться тут! */}
-                            {renderConfiguratorBtn()}
+
+                            {/* МАГІЯ ТУТ: Обгортка для кнопок */}
+                            <div className={styles.actionsWrap}>
+                                {/* Блок ціни з плавним зникненням */}
+                                <div className={`${styles.quickBuyRow} ${isConfiguratorOpen ? styles.quickBuyRowHidden : ''}`}>
+                                    <span className={styles.quickBuyPrice}>
+                                        {enduroBike.basePrice.toLocaleString("en-US").replace(",", " ")} $
+                                    </span>
+                                    <Button
+                                        variant="primary"
+                                        className={styles.quickBuyBtn}
+                                        onClick={handleQuickBuy}
+                                    >
+                                        BUY
+                                    </Button>
+                                </div>
+
+                                {renderConfiguratorBtn()}
+                            </div>
                         </div>
 
                         <div className={styles.right}>
@@ -145,7 +193,6 @@ export default function Enduro() {
                             </div>
                         </div>
 
-                        {/* 5. Чіпляємо наш Ref на обгортку конфігуратора */}
                         <div
                             ref={configuratorRef}
                             className={`${styles.configuratorPanel} ${isConfiguratorOpen ? styles.configuratorPanelOpen : ''}`}
@@ -155,7 +202,6 @@ export default function Enduro() {
                             </div>
                         </div>
                     </div>
-                    {/* Видалено дублюючу мобільну кнопку звідси */}
                 </div>
             </Container>
         </section>

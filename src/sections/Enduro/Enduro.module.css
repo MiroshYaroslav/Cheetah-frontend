@@ -26,7 +26,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--s3);
+    gap: var(--s1);
     flex: 1;
 }
 
@@ -332,4 +332,60 @@
            Якщо хочеш, щоб вона залишалася справа - просто видали цей рядок */
         align-items: flex-start;
     }
+}
+
+
+/* --- БЛОК ШВИДКОЇ ПОКУПКИ (Зовнішній) --- */
+.actionsWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.quickBuyRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+
+    /* Базовий стан (видимий) */
+    max-height: 60px; /* Трохи більше за висоту кнопки (56px) */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    margin-bottom: 0;
+
+    /* Плавний перехід */
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease,
+    visibility 0.3s,
+    transform 0.3s ease,
+    margin-bottom 0.3s ease;
+    overflow: hidden; /* Щоб контент не вилазив, коли висота зменшується */
+}
+
+/* Стан, коли конфігуратор ВІДКРИТО (прихований) */
+.quickBuyRowHidden {
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px); /* Трохи їде вгору при зникненні */
+    margin-bottom: -8px; /* Прибираємо вплив gap: 8px від .actionsWrap */
+}
+
+.quickBuyPrice {
+    color: rgba(0, 0, 0, 0.90);
+    font-family: "Roboto Flex", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 120%;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-variation-settings: "GRAD" 150, "XOPQ" 96, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712, "slnt" 0, "wdth" 151;
+}
+
+.quickBuyBtn {
+    flex: 1;
 }
