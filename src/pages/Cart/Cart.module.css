@@ -1,90 +1,79 @@
 .cartPage {
-    padding-top: 120px;
+    padding-top: var(--header-height);
     padding-bottom: 60px;
-    background: #F8F9FA;
+    background: #FCFCFC;
     min-height: 100vh;
 }
 
+/* --- ХЕДЕР СТОРІНКИ --- */
+.pageHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px; /* МАГІЯ: встановлюємо рівно 8px між кожним елементом, як у Figma */
+    margin-bottom: 40px;
+}
+
+.headerSubtitle {
+    color: rgba(0, 0, 0, 0.90);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    margin: 0; /* Обов'язково скидаємо margin, щоб працював тільки gap */
+}
+
+/* --- СІТКА КОШИКА --- */
 .layout {
-    display: grid;
-    grid-template-columns: 1fr 30%;
-    gap: 40px;
+    display: flex;
+    gap: 32px;
     align-items: flex-start;
 }
 
 .itemsColumn {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 24px;
     min-width: 0;
 }
 
+.summaryColumn {
+    flex: 0 0 380px;
+}
+
+/* --- КАРТКА ТОВАРУ --- */
 .cartCard {
     display: flex;
-    padding: 18px;
-    gap: 24px;
-    max-width: 1171px;
-    align-items: flex-start;
-    align-self: stretch;
-    align-content: flex-start;
-    flex-wrap: wrap;
-    border-radius: 20px;
-    border: 1px solid #DADDDE;
-    background: #F4F6F7;
-    box-shadow: 0 8px 25px 0 rgba(83, 89, 144, 0.25);
+    padding: 24px; /* Трохи збільшив внутрішній відступ для повітря */
+    gap: 40px;     /* Збільшив відстань між фото і текстом */
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: #FFFFFF;
 }
 
 .left {
+    position: relative;
+    /* МАГІЯ ТУТ: тепер ліва частина (фото) забирає весь вільний простір екрана */
+    flex: 1 1 0;
+    min-width: 280px;
     display: flex;
-    height: 268px;
-    align-items: flex-start;
-    gap: 12px;
-    flex: 1 0 0;
+    flex-direction: column;
 }
 
 .cardActions {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    flex-shrink: 0;
-}
-
-.checkbox {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
-    border: 2px solid #121212;
-    background-color: transparent;
-    cursor: pointer;
-    margin: 0 auto;
-    position: relative;
-    border-radius: 0;
-    transition: background-color 0.2s ease;
-}
-
-.checkbox:checked {
-    background-color: #121212;
-}
-
-.checkbox:checked::after {
-    content: "";
-    position: absolute;
-    left: 4px;
-    top: 1px;
-    width: 4px;
-    height: 8px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+    align-items: center;
 }
 
 .actionBtn {
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 4px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: opacity 0.2s;
 }
 
@@ -92,161 +81,154 @@
     opacity: 0.6;
 }
 
+.deleteIcon {
+    width: 24px;
+    height: 24px;
+}
+
 .cardImageWrap {
     flex: 1;
-    height: 100%;
-    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle, rgba(0,0,0,0.05) 0%, transparent 70%);
 }
 
 .cardImage {
     max-width: 100%;
-    max-height: 100%;
     object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.08));
 }
 
 .right {
+    /* МАГІЯ ТУТ: обмежуємо ширину правого блоку до ~420px.
+       Текст не розповзається, а кнопка кількості виглядає акуратно */
+    flex: 0 0 420px;
     display: flex;
-    min-width: 309px;
     flex-direction: column;
-    align-items: flex-start;
     gap: 16px;
-    flex: 1 0 0;
+    min-width: 0;
 }
 
 .itemName {
-    font-family: 'Roboto Flex', sans-serif;
     color: #121212;
-    font-size: 32px;
-    font-style: normal;
+    font-family: 'Roboto Flex', sans-serif;
+    font-size: 40px;
     font-weight: 600;
     line-height: 120%;
+    margin: 0;
+    font-variation-settings: "GRAD" 150, "XOPQ" 96, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712, "slnt" 0, "wdth" 151;
+}
+
+/* --- ХАРАКТЕРИСТИКИ --- */
+.infoBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.infoTitle {
+    color: rgba(0, 0, 0, 0.70);
+    text-wrap-style: balance;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 21px */
+}
+
+.specsRow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px; /* Цей один параметр робить всі відступи по 12px між текстом і рискою */
+}
+
+/* Окремий незалежний клас для тексту та іконок всередині нього */
+.specText {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: rgba(0, 0, 0, 0.90);
+    text-align: center;
+    text-wrap-style: balance;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%; /* 24px */
     text-transform: uppercase;
 }
 
-.subTitle {
-    color: #121212;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 120%;
-}
-
-.specsBlock {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    align-self: stretch;
-}
-
-.specsList {
-    display: flex;
-    align-items: center;
-}
-
-.specsList span + span {
-    margin-left: 12px;
-    padding-left: 12px;
-    border-left: 1px solid rgba(0, 0, 0, 0.15);
-}
-
-.configBlock {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    align-self: stretch;
-}
-
-.configHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    align-self: stretch;
-}
-
-.editIcon {
-    cursor: pointer;
-    transition: opacity 0.2s;
-}
-
-.editIcon:hover {
-    opacity: 0.6;
-}
-
-.configList {
-    display: flex;
-    align-items: center;
-    margin-top: 8px;
-}
-
-.configItem + .configItem {
-    margin-left: 12px;
-    padding-left: 12px;
-    border-left: 1px solid rgba(0, 0, 0, 0.15);
-}
-
-.configItem {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+/* Наша нова вертикальна лінія */
+.dividerV {
+    width: 1px;
+    height: 24px; /* Задаємо фіксовану висоту риски */
+    background-color: rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* Щоб лінія не сплющувалася при браку місця */
 }
 
 .colorDot {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     display: inline-block;
+    border: 1px solid rgba(18, 18, 18, 0.1);
 }
 
+/* --- ПІДВАЛ КАРТКИ (Кількість та Ціна) --- */
 .cardFooter {
     display: flex;
-    justify-content: space-between;
-    align-items: center; /* Краще центрувати їх по вертикалі */
-    gap: 8px; /* Трохи більший відступ між лічильником і ціною */
-    align-self: stretch;
-    /* flex-wrap: wrap; <-- ПРИБРАЛИ, щоб заборонити перенос на новий рядок */
+    flex-direction: column;
+    gap: 16px;
+    margin-top: auto;
+}
+
+.qtySection {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.qtyLabel {
+    color: rgba(18, 18, 18, 0.6);
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .quantityControl {
     display: flex;
-    height: 48px;
-    min-width: 110px; /* Зменшили мінімальну ширину, щоб дозволити йому стискатись */
-    max-width: 236px;
-    flex: 1 1 0; /* 1 (grow), 1 (shrink - ДОЗВОЛЯЄМО стискатись), 0 (basis) */
-    padding: 12px 16px;
-    justify-content: space-between;
-    align-items: center;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.05); /* Світло-сірий фон, як в макеті */
     border-radius: 4px;
-    border: 1px solid #121212;
+    padding: 4px;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .qtyBtn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.90);
+    background: #060319;
+    padding: 6px;
     justify-content: center;
-    transition: opacity 0.2s ease;
+    align-items: center;
+    gap: 4px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: opacity 0.2s;
 }
 
 .qtyBtn:disabled {
-    opacity: 0.2;
+    opacity: 0.3;
     cursor: not-allowed;
 }
 
-.qtyBtn:not(:disabled):hover {
-    opacity: 0.6;
-}
-
 .qtyIcon {
-    display: block;
+    filter: brightness(0) invert(1); /* Робить чорну іконку білою */
+    width: 20px;
+    height: 20px;
 }
 
 .qtyNumberWrap {
@@ -254,85 +236,51 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    height: 24px;
-    min-width: 24px;
+    height: 20px;
+    min-width: 40px;
 }
 
 .qtyAnimated {
-    display: inline-block;
-    color: #161616;
+    color: #000;
+    text-wrap-style: balance;
     font-size: 16px;
-    font-weight: 500;
-    line-height: 1;
-    /* Більш плавна крива анімації замість різкої */
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%; /* 24px */
     animation-duration: 0.25s;
     animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
     animation-fill-mode: forwards;
 }
 
-/* Якщо натиснули "Плюс" */
-.qtyUp {
-    animation-name: rollUp;
-}
-
-/* Якщо натиснули "Мінус" */
-.qtyDown {
-    animation-name: rollDown;
-}
-
-@keyframes rollUp {
-    0% {
-        transform: translateY(12px);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes rollDown {
-    0% {
-        transform: translateY(-12px);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
 .itemPrice {
-    color: #131214;
-    text-align: right;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Arial, sans-serif;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 
-    flex-shrink: 0;
-    white-space: nowrap;
+    color: rgba(0, 0, 0, 0.90);
+    text-align: center;
+    text-wrap-style: balance;
+
+    font-family: "Roboto Flex", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%; /* 24px */
+    font-variation-settings: "GRAD" 150, "XOPQ" 96, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712, "slnt" 0, "wdth" 151;
 }
 
+/* --- ПРАВИЙ БЛОК (САМАРІ) --- */
 .summaryCard {
     display: flex;
-    /* ВИДАЛИ АБО ЗАКРИЙ КОМЕНТАРЯМИ ЦІ ДВА РЯДКИ: */
-    /* width: 405px; */
-    /* min-width: 300px; */
-
-    padding: 24px;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    border-radius: 20px;
-    border: 1px solid #DADDDE;
-    background: #F4F6F7;
-    box-shadow: 0 8px 25px 0 rgba(83, 89, 144, 0.25);
-
-    /* Додаємо sticky, щоб блок їздив за нами при скролі */
+    gap: 24px;
+    padding: 16px;
+    background: #FFFFFF;
     position: sticky;
     top: 120px;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
 }
 
 .selectAll {
@@ -340,52 +288,87 @@
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    font-size: 14px;
-    font-style: normal;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 150%; /* 21px */
+    line-height: 150%; /* 24px */
+    color: #121212;
+}
+
+.checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(18, 18, 18, 0.4);
+    border-radius: 4px;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    margin: 11px;
+    transition: all 0.2s ease;
+}
+
+.checkbox:checked {
+    background-color: #121212;
+    border-color: #121212;
+}
+
+.checkbox:checked::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.summaryHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .summaryTitle {
-    font-size: 18px;
+    font-family: 'Roboto Flex', sans-serif;
+    color: rgba(0, 0, 0, 0.90);
+    text-wrap-style: balance;
+    font-size: 20px;
     font-style: normal;
-    font-weight: 500;
-    line-height: 120%; /* 21.6px */
+    font-weight: 600;
+    line-height: 120%; /* 24px */
+    font-variation-settings: "GRAD" 150, "XOPQ" 96, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712, "slnt" 0, "wdth" 151;
 }
 
 .deliveryNote {
+    color: rgba(0, 0, 0, 0.90);
+    text-wrap-style: balance;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 150%; /* 24px */
 }
 
-.securityBtn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1 0 0;
+.divider {
+    height: 1px;
+    background: rgba(18, 18, 18, 0.1);
     width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid rgba(18, 18, 18, 0.12);
-    padding: 0 0 23px 0;
-    margin-bottom: 7px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: left;
-    color: #0b0b0b;
+    margin: 8px 0;
 }
 
-.chevron {
-    margin-left: auto;
+.receiptList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .receiptRow {
     display: flex;
-    align-items: flex-start;
-    gap: 8px;
+    justify-content: space-between;
+    color: rgba(0, 0, 0, 0.90);
+    text-wrap-style: balance;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -394,56 +377,87 @@
 
 .receiptTotal {
     display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 18px;
+    justify-content: space-between;
+    align-items: center;
+
+    color: rgba(0, 0, 0, 0.90);
+    text-align: center;
+    text-wrap-style: balance;
+    font-family: "Roboto Flex", sans-serif;
+    font-size: 20px;
     font-style: normal;
-    font-weight: 500;
-    line-height: 120%; /* 21.6px */
+    font-weight: 600;
+    line-height: 120%;
+    font-variation-settings: "GRAD" 150, "XOPQ" 96, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712, "slnt" 0, "wdth" 151;
 }
 
 .checkoutBtn {
-    width: 100%;
     height: 56px;
+    width: 100%;
+    margin-top: -8px;
+}
+
+/* --- АНІМАЦІЇ КІЛЬКОСТІ --- */
+.qtyUp { animation-name: rollUp; }
+.qtyDown { animation-name: rollDown; }
+
+@keyframes rollUp {
+    0% { transform: translateY(12px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes rollDown {
+    0% { transform: translateY(-12px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
 }
 
 .emptyCart {
     text-align: center;
-    padding: 60px;
+    padding: 80px 20px;
     font-size: 20px;
-    color: #565656;
-    background: #fff;
-    border-radius: 16px;
+    color: rgba(18, 18, 18, 0.6);
+    border: 1px dashed rgba(18, 18, 18, 0.2);
+    border-radius: 12px;
 }
 
 .partsSection {
-    margin-top: 80px;
+    margin-top: 100px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1440px) {
+    .right {
+        flex: 0 0 380px; /* Трохи звужуємо текстову колонку на середніх екранах */
+    }
+}
+
+/* --- АДАПТИВНІСТЬ --- */
+@media (max-width: 1024px) {
     .layout {
-        grid-template-columns: 1fr;
-    }
-
-    .summaryCard {
-        position: static;
-        width: 100%;
-    }
-
-    .cartCard {
         flex-direction: column;
-        height: auto;
-        align-items: stretch;
     }
 
-    .left, .right {
+    .summaryColumn {
         width: 100%;
         flex: none;
     }
 
+    .summaryCard {
+        position: static;
+    }
+
+    .cartCard {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .left {
+        width: 100%;
+    }
+
+    .right {
+        flex: none; /* На мобілках текст знову займає 100% ширини */
+    }
+
     .cardImageWrap {
-        flex: 1;
-        width: auto;
-        height: 300px;
+        height: 200px;
     }
 }

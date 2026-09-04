@@ -8,7 +8,7 @@ export const navLinks: NavLink[] = [
     { label: "Model", href: "#model" },
     { label: "Parts", href: "#parts" },
     { label: "About us", href: "#about" },
-    { label: "Faq", href: "#qa" },
+    { label: "Faq", href: "#support" },
 ];
 
 export const faqs: FAQItem[] = [

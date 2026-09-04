@@ -1,6 +1,8 @@
 .hero {
     position: relative;
-    min-height: 72vh;
+    width: 100%;
+    min-height: 100svh;
+    height: 100dvh;
     overflow: hidden;
     padding-top: var(--header-height);
 }
@@ -32,12 +34,10 @@
 
 .inner {
     position: relative;
-    min-height: 72vh;
     z-index: 1;
-    height: 980px;
+    height: 100%;
     display: flex;
     align-items: stretch;
-    padding-top: var(--header-height);
 }
 
 .content {
@@ -63,7 +63,7 @@
     flex-direction: row;
     justify-content: space-between;
     gap: var(--s3);
-    padding: 40px 0;
+    padding: 32px 0;
 }
 
 .bottomText {
@@ -122,13 +122,6 @@
     mask-position: left center;
 }
 
-
-@media (max-width: 1440px) {
-    .inner {
-        height: 924px;
-    }
-}
-
 @media (max-width: 1024px) {
     .giantTitleLogo {
         width: 100%; /* Скидаємо фіксовану ширину, щоб працював align-self: stretch */
@@ -149,9 +142,6 @@
 
 /* Твій існуючий медіа-запит для 500px */
 @media (max-width: 500px) {
-    .inner {
-        height: 792px;
-    }
 
     .giantTitleLogo {
         width: 100%;
@@ -200,16 +190,4 @@
 
 .heroBtn {
     color: #121212;
-}
-
-@media (max-width: 1440px) {
-    .inner {
-        height: 924px;
-    }
-}
-
-@media (max-width: 500px) {
-    .inner {
-        height: 792px;
-    }
 }

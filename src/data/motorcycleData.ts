@@ -11,7 +11,7 @@ export const enduroBike: MotorcycleProduct = {
     variants: [
         {
             id: "variant-enduro",
-            name: "ENDURO",
+            name: "Enduro",
             image: { src: "/enduro-1.png", alt: "Enduro" },
             specs: [
                 {
@@ -33,7 +33,7 @@ export const enduroBike: MotorcycleProduct = {
         },
         {
             id: "variant-cross",
-            name: "CROSS",
+            name: "Cross",
             image: { src: "/enduro-1.png", alt: "Cross" }, // Зміни на правильний файл, коли будеш мати
             specs: [
                 {
@@ -48,7 +48,7 @@ export const enduroBike: MotorcycleProduct = {
         },
         {
             id: "variant-street",
-            name: "STREET",
+            name: "Street",
             image: { src: "/enduro-1.png", alt: "Street" }, // Зміни на правильний файл
             specs: [
                 {

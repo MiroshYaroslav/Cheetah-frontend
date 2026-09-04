@@ -12,7 +12,7 @@
     user-select: none;
     text-decoration: none;
 
-    font-size: 18px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: 150%;
@@ -28,13 +28,11 @@
 /* РОЗМІРИ (контролюють padding та height) */
 .md {
     padding: 14px 32px;
-    min-height: 55px; /* Задали висоту 55px як ти просив для більшості кнопок */
 }
 
 .sm {
     padding: 8px 24px;
     min-height: 40px; /* Менша висота для sm-кнопок */
-    font-size: 16px; /* Зазвичай дрібніші кнопки мають трохи менший шрифт */
 }
 
 /* РОЗТЯГУВАННЯ */

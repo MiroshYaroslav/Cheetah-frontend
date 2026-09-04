@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Container from "../../components/Container/Container";
 import { navLinks } from "../../data/siteData";
@@ -10,8 +10,31 @@ export default function Navbar() {
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
+    // 1. Створюємо реф для хедера
+    const headerRef = useRef<HTMLElement>(null);
+
     // Перевіряємо, чи ми на сторінці кошика
     const isCartPage = location.pathname === "/cart";
+
+    // 2. Ефект для динамічного вирахування висоти хедера
+    useEffect(() => {
+        const updateHeaderHeight = () => {
+            if (headerRef.current) {
+                // Отримуємо реальну висоту в пікселях
+                const height = headerRef.current.offsetHeight;
+                // Записуємо в :root
+                document.documentElement.style.setProperty('--header-height', `${height}px`);
+            }
+        };
+
+        // Рахуємо при першому завантаженні
+        updateHeaderHeight();
+
+        // Оновлюємо при зміні розміру вікна (наприклад, при повороті телефону)
+        window.addEventListener("resize", updateHeaderHeight);
+
+        return () => window.removeEventListener("resize", updateHeaderHeight);
+    }, []);
 
     useEffect(() => {
         const onScroll = () => {
@@ -40,7 +63,6 @@ export default function Navbar() {
     }, [open]);
 
     // Формуємо класи для хедера
-    // Якщо це кошик -> додаємо headerLight і завжди робимо його Solid
     const headerClasses = [
         styles.header,
         isCartPage ? styles.headerLight : "",
@@ -49,7 +71,8 @@ export default function Navbar() {
     ].filter(Boolean).join(" ");
 
     return (
-        <header className={headerClasses}>
+        // 3. Чіпляємо реф на тег header
+        <header ref={headerRef} className={headerClasses}>
             <Container className={styles.inner}>
                 <div className={styles.left}>
                     <button className={styles.logo} onClick={() => navigate("/")} aria-label="Cheetah home" style={{background: 'none', border: 'none', cursor: 'pointer', padding: 0}}>

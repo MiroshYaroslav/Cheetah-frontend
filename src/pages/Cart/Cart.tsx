@@ -1,17 +1,17 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
 import Parts from "../../sections/Parts/Parts";
+import SectionHeader from "../../components/SectionHeader/SectionHeader";
+import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs"; // Підключаємо наш новий компонент
 import { useCartStore, type CartItemType } from "../../store/cartStore";
-import { SHOP_SETTINGS } from "../../data/siteData";
 import styles from "./Cart.module.css";
 
-// --- НОВИЙ КОМПОНЕНТ ДЛЯ КЕРУВАННЯ КІЛЬКІСТЮ ТА АНІМАЦІЄЮ ---
+// --- КОМПОНЕНТ ДЛЯ КЕРУВАННЯ КІЛЬКІСТЮ ТА АНІМАЦІЄЮ ---
 function QuantitySelector({ item, updateQuantity }: { item: CartItemType, updateQuantity: (id: string, amount: number) => void }) {
     const [prevQty, setPrevQty] = useState(item.quantity);
     const [direction, setDirection] = useState<'up' | 'down'>('up');
 
-    // Офіційний патерн React для оновлення стану на основі змінених пропсів
     if (item.quantity !== prevQty) {
         setDirection(item.quantity > prevQty ? 'up' : 'down');
         setPrevQty(item.quantity);
@@ -24,7 +24,7 @@ function QuantitySelector({ item, updateQuantity }: { item: CartItemType, update
                 onClick={() => updateQuantity(item.id, -1)}
                 disabled={item.quantity <= 1}
             >
-                <img src="/MinusCircle.svg" alt="minus" className={styles.qtyIcon} />
+                <img src="/minus.svg" alt="minus" className={styles.qtyIcon} />
             </button>
             <div className={styles.qtyNumberWrap}>
                 <span
@@ -38,18 +38,16 @@ function QuantitySelector({ item, updateQuantity }: { item: CartItemType, update
                 className={styles.qtyBtn}
                 onClick={() => updateQuantity(item.id, 1)}
             >
-                <img src="/PlusCircle.svg" alt="plus" className={styles.qtyIcon} />
+                <img src="/plus.svg" alt="plus" className={styles.qtyIcon} />
             </button>
         </div>
     );
 }
+
 // --- ОСНОВНИЙ КОМПОНЕНТ КОШИКА ---
 export default function Cart() {
-    // ... весь твій попередній код Cart (стейт, хуки useMemo) залишається без змін ...
     const { items, updateQuantity, removeItem } = useCartStore();
     const [uncheckedIds, setUncheckedIds] = useState<Set<string>>(new Set());
-
-    const deliveryPrice = SHOP_SETTINGS.deliveryPrice;
 
     const totalPrice = useMemo(() => {
         return items.reduce((sum, item) => {
@@ -59,10 +57,6 @@ export default function Cart() {
             return sum;
         }, 0);
     }, [items, uncheckedIds]);
-
-    const finalPrice = useMemo(() => {
-        return totalPrice > 0 ? totalPrice + deliveryPrice : 0;
-    }, [totalPrice, deliveryPrice]);
 
     const isAllSelected = useMemo(() => {
         return items.length > 0 && items.every((item) => !uncheckedIds.has(item.id));
@@ -92,10 +86,44 @@ export default function Cart() {
         }
     };
 
+    const formatPrice = (price: number) => {
+        return price.toLocaleString('en-US').replace(/,/g, ' ');
+    };
+
     return (
         <div className={styles.cartPage}>
             <Container>
+                {/* НАВІГАЦІЯ (Breadcrumbs) */}
+                <Breadcrumbs currentPage="BAG" />
+
+                {/* ХЕДЕР СТОРІНКИ */}
+                <div className={styles.pageHeader}>
+                    <SectionHeader
+                        title="BAG"
+                        align="left"
+                    />
+
+                    <p className={styles.headerSubtitle}>
+                        Place your order quickly and securely. Please note: once you have<br/>
+                        purchased a motorbike, we will call or email you to confirm the order details.
+                    </p>
+
+                    <p className={styles.headerSubtitle}>
+                        Please read our privacy policy
+                    </p>
+
+                    <Button
+                        href="/privacy-policy"
+                        variant="outline"
+                        className={styles.privacyBtn}
+                        iconRight={<img src="/CaretRight.svg" alt="arrow right" />}
+                    >
+                        PRIVACY POLICY
+                    </Button>
+                </div>
+
                 <div className={styles.layout}>
+                    {/* ЛІВА КОЛОНКА: ТОВАРИ */}
                     <div className={styles.itemsColumn}>
                         {items.length === 0 ? (
                             <div className={styles.emptyCart}>Ваш кошик порожній</div>
@@ -113,9 +141,6 @@ export default function Cart() {
                                                     checked={isChecked}
                                                     onChange={() => handleItemToggle(item.id)}
                                                 />
-                                                <button className={styles.actionBtn}>
-                                                    <img src="/MagnifyingGlassPlus.svg" alt="zoom" />
-                                                </button>
                                                 <button
                                                     className={styles.actionBtn}
                                                     onClick={() => {
@@ -127,54 +152,71 @@ export default function Cart() {
                                                         });
                                                     }}
                                                 >
-                                                    <img src="/trash.svg" alt="delete" />
+                                                    <img src="/trash.svg" alt="delete" className={styles.deleteIcon} />
                                                 </button>
                                             </div>
-
                                             <div className={styles.cardImageWrap}>
                                                 <img src={item.image} alt={item.name} className={styles.cardImage} />
                                             </div>
                                         </div>
 
                                         <div className={styles.right}>
-                                            <div className={styles.cardHeader}>
-                                                <h2 className={styles.itemName}>{item.name}</h2>
-                                            </div>
+                                            <h2 className={styles.itemName}>{item.name}</h2>
 
+                                            {/* ДИНАМІЧНИЙ БЛОК ХАРАКТЕРИСТИК */}
                                             {item.stats && (
-                                                <div className={styles.specsBlock}>
-                                                    <h2 className={styles.subTitle}>Характеристики</h2>
-                                                    <div className={styles.specsList}>
-                                                        <span>Weight {item.stats.weight}</span>
-                                                        <span>Speed {item.stats.speed}</span>
-                                                        <span>Cooling {item.stats.cooling}</span>
+                                                <div className={styles.infoBlock}>
+                                                    <h3 className={styles.infoTitle}>Specifications</h3>
+                                                    <div className={styles.specsRow}>
+                                                        {Object.entries(item.stats).map(([key, value], index, array) => (
+                                                            <React.Fragment key={key}>
+                                                                <span className={styles.specText}>
+                                                                    {key.toUpperCase()} {String(value).toUpperCase()}
+                                                                </span>
+                                                                {/* Додаємо риску тільки якщо це не останній елемент */}
+                                                                {index < array.length - 1 && <div className={styles.dividerV} />}
+                                                            </React.Fragment>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             )}
 
-                                            {item.config && (
-                                                <div className={styles.configBlock}>
-                                                    <div className={styles.configHeader}>
-                                                        <h2 className={styles.subTitle}>Конфігурації</h2>
-                                                        <img src="/settings.svg" alt="edit" className={styles.editIcon} />
-                                                    </div>
-                                                    <div className={styles.configList}>
-                                                        <div className={styles.configItem}>
-                                                            <span className={styles.colorDot} style={{ background: '#000' }}></span>
-                                                            {item.config.frameLabel}
+                                            {/* ДИНАМІЧНИЙ БЛОК КОНФІГУРАТОРА */}
+                                            {item.config && (() => {
+                                                // Збираємо масив опцій для зручного перебору
+                                                const configOptions = [
+                                                    { id: 'frame', label: item.config.frameLabel, hasDot: true },
+                                                    { id: 'plastic', label: item.config.plasticLabel },
+                                                    { id: 'tires', label: item.config.tiresLabel }
+                                                ].filter(opt => Boolean(opt.label)); // Фільтруємо порожні
+
+                                                return (
+                                                    <div className={styles.infoBlock}>
+                                                        <h3 className={styles.infoTitle}>Configurator</h3>
+                                                        <div className={styles.specsRow}>
+                                                            {configOptions.map((opt, index, array) => (
+                                                                <React.Fragment key={opt.id}>
+                                                                    <span className={styles.specText}>
+                                                                        {opt.hasDot && <span className={styles.colorDot} style={{ background: '#000' }}></span>}
+                                                                        {opt.label.toUpperCase()}
+                                                                    </span>
+                                                                    {/* Додаємо риску тільки якщо це не останній елемент */}
+                                                                    {index < array.length - 1 && <div className={styles.dividerV} />}
+                                                                </React.Fragment>
+                                                            ))}
                                                         </div>
-                                                        <div className={styles.configItem}>{item.config.plasticLabel} plastic</div>
-                                                        <div className={styles.configItem}>{item.config.tiresLabel} tires</div>
                                                     </div>
-                                                </div>
-                                            )}
+                                                );
+                                            })()}
 
                                             <div className={styles.cardFooter}>
-                                                {/* ЗАМІНИЛИ СТАРИЙ БЛОК НА НОВИЙ КОМПОНЕНТ */}
-                                                <QuantitySelector item={item} updateQuantity={updateQuantity} />
-
+                                                <div className={styles.qtySection}>
+                                                    <span className={styles.qtyLabel}>Quantity</span>
+                                                    <QuantitySelector item={item} updateQuantity={updateQuantity} />
+                                                </div>
                                                 <div className={styles.itemPrice}>
-                                                    {(item.price * item.quantity).toLocaleString('uk-UA')}₴
+                                                    <span className={styles.priceLabel}>Price:</span>
+                                                    <span className={styles.priceValue}>{formatPrice(item.price * item.quantity)} $</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -184,8 +226,8 @@ export default function Cart() {
                         )}
                     </div>
 
+                    {/* ПРАВА КОЛОНКА: ОФОРМЛЕННЯ */}
                     <div className={styles.summaryColumn}>
-                        {/* ... блок summaryCard залишається без змін ... */}
                         <div className={styles.summaryCard}>
                             <label className={styles.selectAll}>
                                 <input
@@ -195,35 +237,34 @@ export default function Cart() {
                                     onChange={handleSelectAllToggle}
                                     disabled={items.length === 0}
                                 />
-                                Обрати все з кошику
+                                Select all
                             </label>
 
-                            <h2 className={styles.summaryTitle}>Оформлення замовлення</h2>
-                            <p className={styles.deliveryNote}>
-                                Після оплати покупки буде відправленно поштою через 3 місяці.
-                            </p>
-
-                            <button className={styles.securityBtn}>
-                                <img src="/ShieldCheck.svg" alt="security" />
-                                Безпека та конфіденційність
-                                <img src="/CaretRight.svg" alt="arrow" className={styles.chevron} />
-                            </button>
-
-                            <div className={styles.receiptRow}>
-                                <span>Ціна покупок</span>
-                                <span>{totalPrice.toLocaleString('uk-UA')}₴</span>
+                            <div className={styles.summaryHeader}>
+                                <h2 className={styles.summaryTitle}>Placing an order</h2>
+                                <p className={styles.deliveryNote}>
+                                    Production time: 3 months after payment.
+                                </p>
                             </div>
-                            <div className={styles.receiptRow}>
-                                <span>Ціна доставки</span>
-                                <span>{totalPrice > 0 ? deliveryPrice : 0}₴</span>
+
+                            <div className={styles.divider} />
+
+                            <div className={styles.receiptList}>
+                                {items.filter(item => !uncheckedIds.has(item.id)).map(item => (
+                                    <div key={item.id} className={styles.receiptRow}>
+                                        <span>Motorcycle {item.name}:</span>
+                                        <span className={styles.rowPrice}>{formatPrice(item.price * item.quantity)} $</span>
+                                    </div>
+                                ))}
                             </div>
+
                             <div className={styles.receiptTotal}>
-                                <span>Всього:</span>
-                                <span>{finalPrice.toLocaleString('uk-UA')}₴</span>
+                                <span className={styles.totalLabel}>Price:</span>
+                                <span className={styles.totalValue}>{formatPrice(totalPrice)} $</span>
                             </div>
 
                             <Button variant="primary" className={styles.checkoutBtn} disabled={!hasSelectedItems}>
-                                Buy
+                                BUY
                             </Button>
                         </div>
                     </div>
