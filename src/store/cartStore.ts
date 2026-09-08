@@ -11,13 +11,16 @@ export interface CartItemType {
         frameLabel: string;
         plasticLabel: string;
         tiresLabel: string;
-        specs?: string; // <--- ДОДАЛИ ЦЕЙ РЯДОК
+        specs?: string;
     };
     stats?: {
         weight: string;
         speed: string;
         cooling: string;
     };
+    // ДОДАЄМО ЦІ ДВА РЯДКИ ДЛЯ ПАРТСІВ:
+    partColor?: string;
+    partSubtitle?: string;
 }
 
 interface CartStore {

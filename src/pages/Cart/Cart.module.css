@@ -1,6 +1,5 @@
 .cartPage {
     padding-top: var(--header-height);
-    padding-bottom: 60px;
     background: #FCFCFC;
     min-height: 100vh;
 }
@@ -11,7 +10,6 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 8px; /* МАГІЯ: встановлюємо рівно 8px між кожним елементом, як у Figma */
-    margin-bottom: 40px;
 }
 
 .headerSubtitle {
@@ -28,6 +26,7 @@
     display: flex;
     gap: 32px;
     align-items: flex-start;
+    padding: 32px 0;
 }
 
 .itemsColumn {
@@ -45,8 +44,8 @@
 /* --- КАРТКА ТОВАРУ --- */
 .cartCard {
     display: flex;
-    padding: 24px; /* Трохи збільшив внутрішній відступ для повітря */
-    gap: 40px;     /* Збільшив відстань між фото і текстом */
+    padding: 16px; /* Трохи збільшив внутрішній відступ для повітря */
+    gap: 32px;     /* Збільшив відстань між фото і текстом */
     border-radius: 16px;
     border: 1px solid rgba(0, 0, 0, 0.10);
     background: #FFFFFF;
@@ -419,10 +418,6 @@
     border-radius: 12px;
 }
 
-.partsSection {
-    margin-top: 100px;
-}
-
 @media (max-width: 1440px) {
     .right {
         flex: 0 0 380px; /* Трохи звужуємо текстову колонку на середніх екранах */
@@ -435,9 +430,17 @@
         flex-direction: column;
     }
 
+    /* МАГІЯ ТУТ: summaryColumn отримує order: 1 і стає першим */
     .summaryColumn {
         width: 100%;
         flex: none;
+        order: 1;
+    }
+
+    /* МАГІЯ ТУТ: itemsColumn отримує order: 2 і падає під summary */
+    .itemsColumn {
+        order: 2;
+        width: 100%;
     }
 
     .summaryCard {
@@ -459,5 +462,153 @@
 
     .cardImageWrap {
         height: 200px;
+    }
+}
+
+/* ========================================= */
+/* --- СЛАЙДЕР ЗАПЧАСТИН (ТІЛЬКИ ДЛЯ CART) --- */
+/* ========================================= */
+.partsSection {
+    padding: 32px 0;
+}
+
+.partsHeader {
+    padding-bottom: 32px;
+}
+
+.embla {
+    overflow: hidden;
+}
+
+.emblaContainer {
+    display: flex;
+    backface-visibility: hidden;
+    touch-action: pan-y;
+    /* Від'ємний відступ для компенсації gap між слайдами */
+    margin-left: -32px;
+}
+
+.emblaSlide {
+    /* Базовий розмір: 4 картки в ряд */
+    flex: 0 0 25%;
+    min-width: 0;
+    padding-left: 32px;
+    display: flex;
+}
+
+/* Розтягуємо PartCard на всю висоту слайда, щоб всі картки були рівні */
+.emblaSlide > * {
+    flex: 1;
+}
+
+/* --- КОНТРОЛЕРИ СЛАЙДЕРА (Пагінація) --- */
+.partsControls {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 32px;
+    padding-top: 8px; /* Залишаємо відступ від карток */
+}
+
+.partsDots {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex: 1;
+}
+
+.partsDot {
+    height: 8px;
+    width: 26px;
+    flex: 0 0 26px;
+    border-radius: 4px;
+    background: rgba(18, 18, 18, 0.2);
+    transition: all 300ms ease;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.partsDotActive {
+    flex: 1;
+    background: #121212;
+}
+
+.partsArrows {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.partsArrowBtn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 200ms ease;
+    background: #060319;
+    border: 1px solid rgba(0, 0, 0, 0.9);
+    color: #ffffff;
+}
+
+.partsArrowBtn:hover:not(:disabled) {
+    background: #121212;
+}
+
+.partsArrowBtn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.partsArrowBtn:disabled {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: transparent;
+    color: rgba(0, 0, 0, 0.4);
+    cursor: not-allowed;
+}
+
+.partsArrowIconImg {
+    display: block;
+    width: 32px;
+    height: 32px;
+    background-color: currentColor;
+    -webkit-mask-image: url('/btn-arrow.svg');
+    mask-image: url('/btn-arrow.svg');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+.partsArrowRight {
+    transform: rotate(180deg);
+}
+
+@media (max-width: 1440px) {
+    .emblaSlide {
+        flex: 0 0 33.3333%;
+    }
+}
+
+/* Від 768px до 991px — 2 картки */
+@media (max-width: 991px) {
+    .emblaSlide {
+        flex: 0 0 50%;
+    }
+}
+
+/* До 767px — 1 картка (мобільні) */
+@media (max-width: 767px) {
+    .emblaSlide {
+        flex: 0 0 100%;
+        padding-left: 16px; /* Зменшуємо відступи між слайдами на мобільному */
+    }
+    .emblaContainer {
+        margin-left: -16px;
     }
 }

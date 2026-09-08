@@ -1,10 +1,14 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import type { EmblaCarouselType } from "embla-carousel";
 import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
-import Parts from "../../sections/Parts/Parts";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
-import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs"; // Підключаємо наш новий компонент
+import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
+import PartCard from "../../components/PartCard/PartCard";
+import { parts } from "../../data/partsData";
 import { useCartStore, type CartItemType } from "../../store/cartStore";
+import type { PartItem } from "../../data/types";
 import styles from "./Cart.module.css";
 
 // --- КОМПОНЕНТ ДЛЯ КЕРУВАННЯ КІЛЬКІСТЮ ТА АНІМАЦІЄЮ ---
@@ -46,7 +50,7 @@ function QuantitySelector({ item, updateQuantity }: { item: CartItemType, update
 
 // --- ОСНОВНИЙ КОМПОНЕНТ КОШИКА ---
 export default function Cart() {
-    const { items, updateQuantity, removeItem } = useCartStore();
+    const { items, updateQuantity, removeItem, addItem } = useCartStore();
     const [uncheckedIds, setUncheckedIds] = useState<Set<string>>(new Set());
 
     const totalPrice = useMemo(() => {
@@ -90,6 +94,66 @@ export default function Cart() {
         return price.toLocaleString('en-US').replace(/,/g, ' ');
     };
 
+    // === ЛОГІКА ДЛЯ СЛАЙДЕРА ЗАПЧАСТИН ===
+    const visibleParts = useMemo(() => {
+        return parts.filter(p => !items.some(item => item.id === p.id || item.id.startsWith(`${p.id}-`)));
+    }, [items]);
+
+    const handleAddPart = (part: PartItem, selectedColorIndex: number) => {
+        const color = part.colors && part.colors.length > 0 ? part.colors[selectedColorIndex] : null;
+        const uniqueId = color ? `${part.id}-${color}` : part.id;
+        const numericPrice = typeof part.price === 'string' ? parseInt(part.price.replace(/\D/g, ''), 10) : part.price;
+
+        addItem({
+            id: uniqueId,
+            name: part.title,
+            price: numericPrice,
+            image: part.image,
+            quantity: 1,
+            // МАГІЯ ТУТ: Тепер ми зберігаємо колір у кошик!
+            partColor: color || undefined,
+            partSubtitle: part.subtitle || undefined
+        });
+    };
+
+    const [emblaRef, emblaApi] = useEmblaCarousel({
+        align: "start",
+        dragFree: true,
+        containScroll: "trimSnaps"
+    });
+
+    const [prevBtnDisabled, setPrevBtnDisabled] = useState(true);
+    const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+
+    const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+    const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+    const scrollTo = useCallback((index: number) => emblaApi && emblaApi.scrollTo(index), [emblaApi]);
+
+    const onInit = useCallback((emblaApi: EmblaCarouselType) => {
+        setScrollSnaps(emblaApi.scrollSnapList());
+    }, []);
+
+    const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
+        setSelectedIndex(emblaApi.selectedScrollSnap());
+        setPrevBtnDisabled(!emblaApi.canScrollPrev());
+        setNextBtnDisabled(!emblaApi.canScrollNext());
+    }, []);
+
+    useEffect(() => {
+        if (!emblaApi) return;
+
+        setTimeout(() => {
+            onInit(emblaApi);
+            onSelect(emblaApi);
+        }, 0);
+
+        emblaApi.on("reInit", onInit);
+        emblaApi.on("reInit", onSelect);
+        emblaApi.on("select", onSelect);
+    }, [emblaApi, onInit, onSelect]);
+
     return (
         <div className={styles.cartPage}>
             <Container>
@@ -98,10 +162,7 @@ export default function Cart() {
 
                 {/* ХЕДЕР СТОРІНКИ */}
                 <div className={styles.pageHeader}>
-                    <SectionHeader
-                        title="BAG"
-                        align="left"
-                    />
+                    <SectionHeader title="BAG" align="left" />
 
                     <p className={styles.headerSubtitle}>
                         Place your order quickly and securely. Please note: once you have<br/>
@@ -163,7 +224,7 @@ export default function Cart() {
                                         <div className={styles.right}>
                                             <h2 className={styles.itemName}>{item.name}</h2>
 
-                                            {/* ДИНАМІЧНИЙ БЛОК ХАРАКТЕРИСТИК */}
+                                            {/* ДИНАМІЧНИЙ БЛОК ХАРАКТЕРИСТИК (Мотоцикл) */}
                                             {item.stats && (
                                                 <div className={styles.infoBlock}>
                                                     <h3 className={styles.infoTitle}>Specifications</h3>
@@ -173,7 +234,6 @@ export default function Cart() {
                                                                 <span className={styles.specText}>
                                                                     {key.toUpperCase()} {String(value).toUpperCase()}
                                                                 </span>
-                                                                {/* Додаємо риску тільки якщо це не останній елемент */}
                                                                 {index < array.length - 1 && <div className={styles.dividerV} />}
                                                             </React.Fragment>
                                                         ))}
@@ -181,14 +241,13 @@ export default function Cart() {
                                                 </div>
                                             )}
 
-                                            {/* ДИНАМІЧНИЙ БЛОК КОНФІГУРАТОРА */}
+                                            {/* ДИНАМІЧНИЙ БЛОК КОНФІГУРАТОРА (Мотоцикл) */}
                                             {item.config && (() => {
-                                                // Збираємо масив опцій для зручного перебору
                                                 const configOptions = [
                                                     { id: 'frame', label: item.config.frameLabel, hasDot: true },
                                                     { id: 'plastic', label: item.config.plasticLabel },
                                                     { id: 'tires', label: item.config.tiresLabel }
-                                                ].filter(opt => Boolean(opt.label)); // Фільтруємо порожні
+                                                ].filter(opt => Boolean(opt.label));
 
                                                 return (
                                                     <div className={styles.infoBlock}>
@@ -200,7 +259,6 @@ export default function Cart() {
                                                                         {opt.hasDot && <span className={styles.colorDot} style={{ background: '#000' }}></span>}
                                                                         {opt.label.toUpperCase()}
                                                                     </span>
-                                                                    {/* Додаємо риску тільки якщо це не останній елемент */}
                                                                     {index < array.length - 1 && <div className={styles.dividerV} />}
                                                                 </React.Fragment>
                                                             ))}
@@ -208,6 +266,19 @@ export default function Cart() {
                                                     </div>
                                                 );
                                             })()}
+
+                                            {/* БЛОК ІНФОРМАЦІЇ ДЛЯ ЗАПЧАСТИН (МАГІЯ ТУТ) */}
+                                            {(!item.config && (item.partColor || item.partSubtitle)) && (
+                                                <div className={styles.infoBlock}>
+                                                    <h3 className={styles.infoTitle}>Configurator</h3>
+                                                    <div className={styles.specsRow}>
+                                                        <span className={styles.specText}>
+                                                            {item.partColor && <span className={styles.colorDot} style={{ background: item.partColor }}></span>}
+                                                            {item.partSubtitle ? item.partSubtitle.toUpperCase() : "SELECTED"}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            )}
 
                                             <div className={styles.cardFooter}>
                                                 <div className={styles.qtySection}>
@@ -269,11 +340,69 @@ export default function Cart() {
                         </div>
                     </div>
                 </div>
-            </Container>
 
-            <div className={styles.partsSection}>
-                <Parts />
-            </div>
+                {/* СЛАЙДЕР ЗАПЧАСТИН ДЛЯ КОШИКА */}
+                {visibleParts.length > 0 && (
+                    <div className={styles.partsSection}>
+                        <div className={styles.partsHeader}>
+                            <SectionHeader
+                                title="PARTS"
+                                subtitle="You might need this for this motorcycle"
+                                align="left"
+                                subtitleAlign="left"
+                            />
+                        </div>
+
+                        <div className={styles.embla} ref={emblaRef}>
+                            <div className={styles.emblaContainer}>
+                                {visibleParts.map((p) => (
+                                    <div key={p.id} className={styles.emblaSlide}>
+                                        <PartCard part={p} onAddToCart={handleAddPart} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* НАВІГАЦІЯ СЛАЙДЕРА */}
+                        {scrollSnaps.length > 1 && (
+                            <div className={styles.partsControls}>
+                                <div className={styles.partsDots}>
+                                    {scrollSnaps.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            type="button"
+                                            className={`${styles.partsDot} ${index === selectedIndex ? styles.partsDotActive : ""}`}
+                                            onClick={() => scrollTo(index)}
+                                            aria-label={`Scroll to group ${index + 1}`}
+                                        />
+                                    ))}
+                                </div>
+
+                                <div className={styles.partsArrows}>
+                                    <button
+                                        type="button"
+                                        className={styles.partsArrowBtn}
+                                        onClick={scrollPrev}
+                                        disabled={prevBtnDisabled}
+                                        aria-label="Previous items"
+                                    >
+                                        <span className={styles.partsArrowIconImg} />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={styles.partsArrowBtn}
+                                        onClick={scrollNext}
+                                        disabled={nextBtnDisabled}
+                                        aria-label="Next items"
+                                    >
+                                        <span className={`${styles.partsArrowIconImg} ${styles.partsArrowRight}`} />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </Container>
         </div>
     );
 }

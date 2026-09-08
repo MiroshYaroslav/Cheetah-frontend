@@ -1,8 +1,7 @@
 .card {
     display: flex;
     width: 100%;
-    max-width: 405px;
-    min-height: 414px;
+    height: 414px; /* Жорстко фіксована висота на всіх екранах */
     padding: 16px;
     flex-direction: column;
     gap: 8px; /* Відстань між Фото та Інфо-блоком */
@@ -44,11 +43,11 @@
     font-variation-settings: "GRAD" 150, "XOPQ" 96, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712, "slnt" 0, "wdth" 151;
 }
 
-/* --- БЛОК КОЛЬОРІВ --- */
+/* --- БЛОК КОЛЬОРІВ (КОВЗАНКА) --- */
 .colorSection {
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Відстань між написом "Colour" та кружечками */
+    gap: 8px; /* Відстань між написом та кружечками */
 }
 
 .colorLabel {
@@ -57,24 +56,58 @@
     margin: 0;
 }
 
-.swatches {
+.optionsGrid {
+    position: relative;
     display: flex;
-    gap: 8px;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.05); /* Напівпрозора сіра плашка */
+    border-radius: 8px;
+    padding: 4px;
+    width: max-content; /* Плашка облягає кнопки */
 }
 
-.swatch {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: 1px solid rgba(18, 18, 18, 0.2);
-    padding: 0;
+.sliderBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #060319; /* Темний повзунок */
+    border-radius: 6px;
+    z-index: 1;
+}
+
+.optionBtn {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border-radius: 6px;
+    border: none;
     cursor: pointer;
-    transition: outline 0.2s ease;
+    padding: 6px;
+    transition: background 0.2s ease;
 }
 
-.swatchActive {
-    outline: 2px solid #121212;
-    outline-offset: 2px;
+/* Ховер для НЕактивних кнопок */
+.optionBtn:hover:not(.optionActive) {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.colorCircle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+    /* Базова тінь для контуру світлих кольорів */
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 2px transparent;
+    transition: box-shadow 0.2s ease;
+}
+
+/* МАГІЯ: Коли кнопка активна, додаємо біле кільце навколо крапки, щоб виділити на чорному фоні! */
+.optionActive .colorCircle {
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 2px #FFFFFF;
 }
 
 /* --- ФУТЕР (Ціна та Кнопки) --- */
@@ -95,14 +128,10 @@
     font-variation-settings: "GRAD" 150, "XOPQ" 96, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712, "slnt" 0, "wdth" 151;
 }
 
-/* Кнопка BUY */
 .buyBtn {
-    flex: 1; /* Кнопка розтягується поруч з ціною */
-    /* Всі інші стилі (background, color, hover, padding, border-radius)
-       тепер автоматично підтягуються з твого Button.module.css! */
+    flex: 1;
 }
 
-/* Плашка, коли товару немає в наявності */
 .outOfStock {
     display: flex;
     height: 24px;
@@ -112,14 +141,10 @@
     gap: 10px;
     align-self: stretch;
     width: 100%;
-
     border-radius: 12px;
     background: rgba(0, 0, 0, 0.05);
-
     color: rgba(0, 0, 0, 0.90);
     text-align: right;
     font-size: 14px;
-    font-style: normal;
     font-weight: 400;
-    line-height: 100%; /* 14px */
 }
