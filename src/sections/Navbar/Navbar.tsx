@@ -13,8 +13,10 @@ export default function Navbar() {
     // 1. Створюємо реф для хедера
     const headerRef = useRef<HTMLElement>(null);
 
-    // Перевіряємо, чи ми на сторінці кошика
-    const isCartPage = location.pathname === "/cart";
+    const isLightHeaderPage =
+        location.pathname === "/cart" ||
+        location.pathname === "/checkout" ||
+        location.pathname === "/order-placed";
 
     // 2. Ефект для динамічного вирахування висоти хедера
     useEffect(() => {
@@ -62,11 +64,10 @@ export default function Navbar() {
         };
     }, [open]);
 
-    // Формуємо класи для хедера
     const headerClasses = [
         styles.header,
-        isCartPage ? styles.headerLight : "",
-        scrolled || open || isCartPage ? styles.headerSolid : "",
+        isLightHeaderPage ? styles.headerLight : "", // ЗМІНЕНО ТУТ
+        scrolled || open || isLightHeaderPage ? styles.headerSolid : "", // І ЗМІНЕНО ТУТ
         open ? styles.headerMenuOpen : ""
     ].filter(Boolean).join(" ");
 

@@ -18,7 +18,6 @@ export interface CartItemType {
         speed: string;
         cooling: string;
     };
-    // ДОДАЄМО ЦІ ДВА РЯДКИ ДЛЯ ПАРТСІВ:
     partColor?: string;
     partSubtitle?: string;
 }
@@ -29,6 +28,7 @@ interface CartStore {
     removeItem: (id: string) => void;
     updateQuantity: (id: string, amount: number) => void;
     getTotalPrice: () => number;
+    clearCart: () => void; // ДОДАНО: Інтерфейс для очищення
 }
 
 export const useCartStore = create<CartStore>()(
@@ -64,7 +64,9 @@ export const useCartStore = create<CartStore>()(
 
             getTotalPrice: () => {
                 return get().items.reduce((total, item) => total + (item.price * item.quantity), 0);
-            }
+            },
+
+            clearCart: () => set({ items: [] })
         }),
         {
             name: 'cheetah-cart',

@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import useEmblaCarousel from "embla-carousel-react";
 import type { EmblaCarouselType } from "embla-carousel";
 import Container from "../../components/Container/Container";
@@ -52,6 +53,7 @@ function QuantitySelector({ item, updateQuantity }: { item: CartItemType, update
 export default function Cart() {
     const { items, updateQuantity, removeItem, addItem } = useCartStore();
     const [uncheckedIds, setUncheckedIds] = useState<Set<string>>(new Set());
+    const navigate = useNavigate();
 
     const totalPrice = useMemo(() => {
         return items.reduce((sum, item) => {
@@ -110,7 +112,6 @@ export default function Cart() {
             price: numericPrice,
             image: part.image,
             quantity: 1,
-            // МАГІЯ ТУТ: Тепер ми зберігаємо колір у кошик!
             partColor: color || undefined,
             partSubtitle: part.subtitle || undefined
         });
@@ -157,8 +158,8 @@ export default function Cart() {
     return (
         <div className={styles.cartPage}>
             <Container>
-                {/* НАВІГАЦІЯ (Breadcrumbs) */}
-                <Breadcrumbs currentPage="BAG" />
+                {/* МАГІЯ ТУТ: ПРОСТО ВИКЛИКАЄМО БЕЗ ПРОПСІВ */}
+                <Breadcrumbs />
 
                 {/* ХЕДЕР СТОРІНКИ */}
                 <div className={styles.pageHeader}>
@@ -267,7 +268,7 @@ export default function Cart() {
                                                 );
                                             })()}
 
-                                            {/* БЛОК ІНФОРМАЦІЇ ДЛЯ ЗАПЧАСТИН (МАГІЯ ТУТ) */}
+                                            {/* БЛОК ІНФОРМАЦІЇ ДЛЯ ЗАПЧАСТИН */}
                                             {(!item.config && (item.partColor || item.partSubtitle)) && (
                                                 <div className={styles.infoBlock}>
                                                     <h3 className={styles.infoTitle}>Configurator</h3>
@@ -334,7 +335,16 @@ export default function Cart() {
                                 <span className={styles.totalValue}>{formatPrice(totalPrice)} $</span>
                             </div>
 
-                            <Button variant="primary" className={styles.checkoutBtn} disabled={!hasSelectedItems}>
+                            <Button
+                                variant="primary"
+                                className={styles.checkoutBtn}
+                                disabled={!hasSelectedItems}
+                                onClick={() => {
+                                    // Передаємо на сторінку чекауту тільки ті товари, які вибрані
+                                    const selectedItemsToBuy = items.filter(item => !uncheckedIds.has(item.id));
+                                    navigate("/checkout", { state: { selectedItems: selectedItemsToBuy } });
+                                }}
+                            >
                                 BUY
                             </Button>
                         </div>

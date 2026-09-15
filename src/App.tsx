@@ -6,9 +6,10 @@ import Enduro from "./sections/Enduro/Enduro";
 import Parts from "./sections/Parts/Parts";
 import About from "./sections/About/About";
 import Footer from "./sections/Footer/Footer";
-
-import Cart from "./pages/Cart/Cart";
 import Support from "./sections/Support/Support.tsx";
+import Cart from "./pages/Cart/Cart";
+import Checkout from "./pages/Checkout/Checkout";
+import OrderPlaced from "./pages/OrderPlaced/OrderPlaced";
 
 export default function App() {
     return (
@@ -30,6 +31,11 @@ export default function App() {
                     />
 
                     <Route path="/cart" element={<Cart />} />
+
+                    <Route path="/checkout" element={<Checkout />} />
+
+                    {/* ДОДАНО НОВИЙ МАРШРУТ */}
+                    <Route path="/order-placed" element={<OrderPlaced />} />
                 </Routes>
             </main>
             <Footer />

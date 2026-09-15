@@ -1,0 +1,415 @@
+.checkoutPage {
+    padding-top: var(--header-height);
+    padding-bottom: 32px;
+    background: #FCFCFC;
+    min-height: 100vh;
+}
+
+/* --- ГОЛОВНИЙ ЗАГОЛОВОК --- */
+.mainTitle {
+    color: rgba(0, 0, 0, 0.90);
+    text-wrap-style: balance;
+    padding-bottom: 32px;
+
+    /* Display/Display desktop */
+    font-family: "Roboto Flex", sans-serif;
+    font-size: 120px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 120px */
+    text-transform: uppercase;
+    font-variation-settings:
+            "opsz" 96,
+            "wght" 600,
+            "GRAD" 150,
+            "XOPQ" 96,
+            "XTRA" 468,
+            "YOPQ" 79,
+            "YTAS" 750,
+            "YTDE" 203,
+            "YTFI" 738,
+            "YTLC" 514,
+            "YTUC" 712,
+            "slnt" 0,
+            "wdth" 151;
+}
+
+/* --- ОДНА КОЛОНКА ДЛЯ ВСІЄЇ ФОРМИ --- */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px; /* Велика відстань між блоками форми */
+    max-width: 680px; /* Ширина, як на макеті */
+}
+
+/* --- СЕКЦІЇ ФОРМИ --- */
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ДОДАЄМО ЦЕЙ КЛАС */
+.sectionHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Твій відступ у 8px між заголовком і підзаголовком */
+}
+
+.sectionTitle {
+    color: rgba(0, 0, 0, 0.90);
+    text-wrap-style: balance;
+
+    /* heading/H2 */
+    font-family: "Roboto Flex", sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%; /* 48px */
+    font-variation-settings:
+            "opsz" 96,
+            "wght" 600,
+            "GRAD" 150,
+            "XOPQ" 96,
+            "XTRA" 468,
+            "YOPQ" 79,
+            "YTAS" 750,
+            "YTDE" 203,
+            "YTFI" 738,
+            "YTLC" 514,
+            "YTUC" 712,
+            "slnt" 0,
+            "wdth" 151;
+}
+
+.sectionDesc {
+    color: rgba(0, 0, 0, 0.70);
+    text-wrap-style: balance;
+
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 24px */
+    max-width: 496px;
+}
+
+/* --- ІНПУТИ (ІДЕНТИЧНІ ДО SUPPORT) --- */
+.inputsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFFFFF;
+
+    /* Текст, який вводить користувач */
+    color: rgba(0, 0, 0, 0.70); /* Як у Support */
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 24px */
+    transition: border-color 0.2s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #121212;
+}
+
+.input::placeholder {
+    color: rgba(0, 0, 0, 0.70);
+    opacity: 0.8;
+}
+
+/* ТЕЛЕФОН */
+.phoneInputWrap {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Додаємо gap як у Support */
+    padding: 12px 16px; /* Внутрішні відступи з Support */
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFFFFF;
+    min-height: 48px;
+    transition: border-color 0.2s ease;
+}
+
+.phoneInputWrap:focus-within {
+    border-color: #121212;
+}
+
+.flagWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 18px;
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.flagImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.inputPhone {
+    flex: 1 0 0;
+    border: none;
+    background: transparent;
+    outline: none;
+
+    color: rgba(0, 0, 0, 0.90);
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.inputPhone::placeholder {
+    color: rgba(0, 0, 0, 0.70);
+    opacity: 1;
+}
+
+/* --- РАДІО КНОПКИ --- */
+.radioGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.radioLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.90);
+    text-wrap-style: balance;
+    line-height: 150%; /* 24px */
+}
+
+.radioDisabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.radioLabel input[type="radio"] {
+    display: none;
+}
+
+.customRadio {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 8px;
+    border: 2px solid rgba(0, 0, 0, 0.40);
+    position: relative;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.radioLabel input[type="radio"]:checked + .customRadio {
+    border-color: #121212;
+}
+
+.radioLabel input[type="radio"]:checked + .customRadio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #121212;
+}
+
+/* --- РОЗШИРЕННЯ ДЛЯ КАРТКИ --- */
+.cardDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.cardInputWrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFFFFF;
+    min-height: 48px;
+    width: 100%;
+    transition: border-color 0.2s ease;
+}
+
+.cardInputWrap:focus-within {
+    border-color: #121212;
+}
+
+.cardIcons {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.cIcon {
+    height: 20px;
+    width: auto;
+}
+
+.inputCard {
+    flex: 1 0 0;
+    border: none;
+    background: transparent;
+    outline: none;
+
+    color: rgba(0, 0, 0, 0.70);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.inputCard::placeholder {
+    color: rgba(0, 0, 0, 0.70);
+    opacity: 0.8;
+}
+
+.cardRow {
+    display: flex;
+    gap: 32px;
+}
+
+/* --- СИНІЙ БАНЕР (SNACKBAR) --- */
+.warningBanner {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #33A1D8;
+    background: #F2F7FF;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 0 0 2px 0 rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+.bannerIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 4px;
+}
+
+.bannerText {
+    color: rgba(0, 0, 0, 0.70);
+    text-wrap-style: balance;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 21px */
+    flex: 1;
+}
+
+.bannerText span {
+    color: #0050C7;
+    font-size: 18px;
+}
+
+.closeBanner {
+    background: transparent;
+    border: none;
+    color: #0066FF;
+    cursor: pointer;
+    padding: 6px;
+    display: grid;
+    place-items: center;
+}
+
+/* --- ПІДСУМОК ЗАМОВЛЕННЯ (ВНИЗУ ФОРМИ) --- */
+.summarySection {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(18, 18, 18, 0.1);
+    margin: 8px 0;
+}
+
+.receiptList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.receiptRow {
+    display: flex;
+    justify-content: space-between;
+    color: rgba(0, 0, 0, 0.90);
+    text-wrap-style: balance;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 24px */
+}
+
+.receiptTotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.totalLabel, .totalValue {
+    color: rgba(0, 0, 0, 0.90);
+    font-family: "Roboto Flex", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%; /* 24px */
+    font-variation-settings: "GRAD" 150, "XOPQ" 96, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712, "slnt" 0, "wdth" 151;
+}
+
+.submitBtn {
+    height: 56px;
+    width: 100%;
+}
+
+/* --- АДАПТИВНІСТЬ --- */
+@media (max-width: 768px) {
+    .mainTitle {
+        font-size: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mainTitle {
+        font-size: 64px;
+    }
+
+    .cardRow {
+        flex-direction: column;
+    }
+}
