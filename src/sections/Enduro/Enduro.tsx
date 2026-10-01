@@ -1,5 +1,6 @@
-import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // ДОДАЛИ ХУК
 import { useCartStore } from "../../store/cartStore";
 import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
@@ -10,6 +11,8 @@ import Configurator from "../../components/Configurator/Configurator";
 
 export default function Enduro() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { t } = useTranslation(); // ІНІЦІАЛІЗАЦІЯ ПЕРЕКЛАДУ
     const addItem = useCartStore((state) => state.addItem);
 
     const [index, setIndex] = useState(0);
@@ -22,6 +25,47 @@ export default function Enduro() {
 
     const isFirst = index === 0;
     const isLast = index === variants.length - 1;
+
+    useEffect(() => {
+        const hash = location.hash.replace("#", "").toLowerCase();
+        if (!hash) return;
+
+        const modelElement = document.getElementById("model");
+        const headerOffset = 77;
+
+        if (["enduro", "cross", "street"].includes(hash)) {
+            const variantIndex = variants.findIndex(
+                (v) => v.id.toLowerCase().includes(hash) || v.name.toLowerCase().includes(hash)
+            );
+
+            if (variantIndex !== -1) {
+                setIndex(variantIndex);
+            }
+            setIsConfiguratorOpen(false);
+
+            setTimeout(() => {
+                if (modelElement) {
+                    const elementPosition = modelElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+            }, 100);
+        } else if (hash === "configurator") {
+            setIsConfiguratorOpen(true);
+
+            setTimeout(() => {
+                if (configuratorRef.current) {
+                    const elementPosition = configuratorRef.current.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                } else if (modelElement) {
+                    const elementPosition = modelElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+            }, 300);
+        }
+    }, [location.hash, variants]);
 
     const prev = () => {
         if (!isFirst) setIndex((i) => i - 1);
@@ -41,25 +85,23 @@ export default function Enduro() {
                     const offset = 120;
                     const elementPosition = configuratorRef.current.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.scrollY - offset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
                 }
             }, 100);
         }
     };
 
-    // Логіка швидкої покупки (коли купують прямо з головного екрана без налаштувань)
     const handleQuickBuy = () => {
-        const frame = enduroBike.configOptions.frame[0];
-        const plastic = enduroBike.configOptions.plastic[0];
-        const tires = enduroBike.configOptions.tires[0];
+        const frameOpt = enduroBike.configOptions.frame[0];
+        const plasticOpt = enduroBike.configOptions.plastic[0];
+        const tiresOpt = enduroBike.configOptions.tires[0];
 
+        // Зберігаємо перекладені характеристики в кошик
         const specsLabels = currentVariant.specs.map(specCat => {
-            const opt = specCat.options[0]; // Беремо першу (базову) опцію
-            return `${specCat.title}: ${opt?.label}`;
+            const opt = specCat.options[0];
+            const catTitle = specCat.titleKey ? t(specCat.titleKey) : specCat.title;
+            const optLabel = opt?.labelKey ? t(opt.labelKey) : opt?.label;
+            return `${catTitle}: ${optLabel}`;
         }).join("; ");
 
         addItem({
@@ -69,9 +111,9 @@ export default function Enduro() {
             image: currentVariant.image.src,
             quantity: 1,
             config: {
-                frameLabel: frame.label,
-                plasticLabel: plastic.label,
-                tiresLabel: tires.label,
+                frameLabel: frameOpt.labelKey ? t(frameOpt.labelKey) : frameOpt.label,
+                plasticLabel: plasticOpt.labelKey ? t(plasticOpt.labelKey) : plasticOpt.label,
+                tiresLabel: tiresOpt.labelKey ? t(tiresOpt.labelKey) : tiresOpt.label,
                 specs: specsLabels
             },
             stats: {
@@ -94,7 +136,7 @@ export default function Enduro() {
                 <span className={`${styles.arrowIcon} ${isConfiguratorOpen ? styles.arrowIconOpen : ''}`} />
             }
         >
-            CONFIGURATOR
+            {t('nav.configurator')} {/* ПЕРЕКЛАД */}
         </Button>
     );
 
@@ -107,20 +149,13 @@ export default function Enduro() {
                             <div key={currentVariant.id} className={styles.animatedTitleWrapper}>
                                 <SectionHeader
                                     title={currentVariant.name}
-                                    subtitle={
-                                        <>
-                                            Experience the future of mobility with our lightweight, powerful electric motorcycles.<br />
-                                            Engineered for those who demand excellence.
-                                        </>
-                                    }
+                                    subtitle={t('hero.subtitle')} // ПЕРЕКЛАД
                                     align="left"
                                     subtitleAlign="left"
                                 />
                             </div>
 
-                            {/* МАГІЯ ТУТ: Обгортка для кнопок */}
                             <div className={styles.actionsWrap}>
-                                {/* Блок ціни з плавним зникненням */}
                                 <div className={`${styles.quickBuyRow} ${isConfiguratorOpen ? styles.quickBuyRowHidden : ''}`}>
                                     <span className={styles.quickBuyPrice}>
                                         {enduroBike.basePrice.toLocaleString("en-US").replace(",", " ")} $
@@ -130,7 +165,7 @@ export default function Enduro() {
                                         className={styles.quickBuyBtn}
                                         onClick={handleQuickBuy}
                                     >
-                                        BUY
+                                        {t('ui.buy')} {/* ПЕРЕКЛАД */}
                                     </Button>
                                 </div>
 
@@ -141,8 +176,12 @@ export default function Enduro() {
                         <div className={styles.right}>
                             {enduroBike.stats.map((s) => (
                                 <div key={s.label} className={styles.stat}>
-                                    <h2 className={styles.statLabel}>{s.label}</h2>
-                                    <h2 className={styles.statValue}>{s.value}</h2>
+                                    <h2 className={styles.statLabel}>
+                                        {s.labelKey ? t(s.labelKey) : s.label} {/* ПЕРЕКЛАД */}
+                                    </h2>
+                                    <h2 className={styles.statValue}>
+                                        {s.valueKey ? t(s.valueKey) : s.value} {/* ПЕРЕКЛАД */}
+                                    </h2>
                                 </div>
                             ))}
                         </div>

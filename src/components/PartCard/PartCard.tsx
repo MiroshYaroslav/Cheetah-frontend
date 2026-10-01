@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback, useLayoutEffect } from "react";
+import { useTranslation } from "react-i18next"; // ДОДАЛИ ХУК
 import Button from "../../components/Button/Button";
 import type { PartItem } from "../../data/types";
 import styles from "./PartCard.module.css";
@@ -9,11 +10,11 @@ type Props = {
 };
 
 export default function PartCard({ part, onAddToCart }: Props) {
+    const { t } = useTranslation(); // ІНІЦІАЛІЗАЦІЯ ПЕРЕКЛАДУ
     const [selectedColor, setSelectedColor] = useState(0);
     const colors = part.colors ?? [];
     const hasColors = colors.length > 0;
 
-    // === ЛОГІКА КОВЗАНКИ (СЛАЙДЕРА КОЛЬОРІВ) ===
     const containerRef = useRef<HTMLDivElement>(null);
     const selectedIdRef = useRef(selectedColor);
 
@@ -82,20 +83,20 @@ export default function PartCard({ part, onAddToCart }: Props) {
 
     return (
         <article className={styles.card}>
-            {/* 1. Верхня частина - Фото */}
             <div className={styles.imageWrap}>
                 <img src={part.image} alt={part.title} loading="lazy" draggable={false} />
             </div>
 
-            {/* 2. Нижня частина - Інформація */}
             <div className={styles.infoWrap}>
-                <h2 className={styles.title}>{part.title}</h2>
+                <h2 className={styles.title}>
+                    {part.titleKey ? t(part.titleKey) : part.title} {/* ПЕРЕКЛАД */}
+                </h2>
 
-                {/* Блок з кольорами */}
                 {hasColors && (
                     <div className={styles.colorSection}>
-                        {/* Беремо підзаголовок (напр. "Plastic colour") або "Colour" за замовчуванням */}
-                        <p className={styles.colorLabel}>{part.subtitle || "Colour"}</p>
+                        <p className={styles.colorLabel}>
+                            {part.subtitleKey ? t(part.subtitleKey) : (part.subtitle || t('parts.colour'))} {/* ПЕРЕКЛАД */}
+                        </p>
 
                         <div className={styles.optionsGrid} ref={containerRef}>
                             <div className={styles.sliderBg} style={sliderStyle}></div>
@@ -137,11 +138,13 @@ export default function PartCard({ part, onAddToCart }: Props) {
                                     onAddToCart(part, selectedColor);
                                 }}
                             >
-                                BUY
+                                {t('ui.buy')} {/* ПЕРЕКЛАД */}
                             </Button>
                         </>
                     ) : (
-                        <div className={styles.outOfStock}>Out of stock</div>
+                        <div className={styles.outOfStock}>
+                            {t('parts.outOfStock')} {/* ПЕРЕКЛАД */}
+                        </div>
                     )}
                 </div>
             </div>

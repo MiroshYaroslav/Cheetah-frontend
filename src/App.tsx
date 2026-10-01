@@ -10,6 +10,7 @@ import Support from "./sections/Support/Support.tsx";
 import Cart from "./pages/Cart/Cart";
 import Checkout from "./pages/Checkout/Checkout";
 import OrderPlaced from "./pages/OrderPlaced/OrderPlaced";
+import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 
 export default function App() {
     return (
@@ -34,8 +35,9 @@ export default function App() {
 
                     <Route path="/checkout" element={<Checkout />} />
 
-                    {/* ДОДАНО НОВИЙ МАРШРУТ */}
                     <Route path="/order-placed" element={<OrderPlaced />} />
+
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 </Routes>
             </main>
             <Footer />

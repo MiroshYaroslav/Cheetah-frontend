@@ -1,0 +1,122 @@
+.page {
+    padding-top: var(--header-height);
+    padding-bottom: 32px;
+    background: #FCFCFC;
+    min-height: 100vh;
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-top: 32px;
+}
+
+/* ВИПРАВЛЕНО: Дозволяємо заголовку тягнутися на всю ширину */
+.headerWrap {
+    width: 100%;
+}
+
+/* ВИПРАВЛЕНО: Обмежуємо по ширині ТІЛЬКИ текст підзаголовка */
+.headerTextWrap {
+    max-width: 800px;
+}
+
+/* --- ОСНОВНИЙ КОНТЕНТ --- */
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+}
+
+.sectionTight {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 800px;
+}
+
+.sectionHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.subSection {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* --- СТИЛІ ТЕКСТУ --- */
+.sectionTitle {
+    color: rgba(0, 0, 0, 0.90);
+    text-wrap-style: balance;
+    display: flex;
+    align-items: flex-start; /* ВИПРАВЛЕНО: Було center. Тепер крапка притиснута до верху! */
+    gap: 12px;
+
+    font-family: "Roboto Flex", sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    font-variation-settings: "opsz" 96, "wght" 600, "GRAD" 150, "XOPQ" 96, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" 203, "YTFI" 738, "YTLC" 514, "YTUC" 712, "slnt" 0, "wdth" 151;
+}
+
+.bullet {
+    font-size: 40px;
+    line-height: 120%; /* ВИПРАВЛЕНО: Зрівняли висоту рядка крапки з висотою рядка тексту, щоб вони ідеально збігалися по базовій лінії */
+}
+
+.subTitle {
+    color: rgba(0, 0, 0, 0.90);
+    text-wrap-style: balance;
+    font-family: "Roboto Flex", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    font-variation-settings: "opsz" 96, "wght" 600, "GRAD" 150, "XOPQ" 96, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" 203, "YTFI" 738, "YTLC" 514, "YTUC" 712, "slnt" 0, "wdth" 151;
+}
+
+.text, .list li {
+    color: rgba(0, 0, 0, 0.70);
+    text-wrap-style: balance;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+/* --- СПИСОК --- */
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 20px;
+    margin: 0;
+    list-style-type: disc;
+}
+
+.list li {
+    color: rgba(0, 0, 0, 0.90);
+}
+
+.link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: opacity 0.2s ease;
+}
+
+.link:hover {
+    opacity: 0.7;
+}

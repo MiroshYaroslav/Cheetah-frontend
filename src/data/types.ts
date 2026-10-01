@@ -1,12 +1,13 @@
-export type NavLink = { label: string; href: string };
-export type StatItem = { label: string; value: string };
-export type FAQItem = { q: string; a: string };
+export type NavLink = { label: string; href: string; labelKey?: string };
+export type StatItem = { label: string; value: string; labelKey?: string; valueKey?: string };
+export type FAQItem = { q: string; a: string; qKey?: string; aKey?: string };
 export type Slide = { src: string; alt: string };
 
-// Робимо color та icon необов'язковими (?)
+// Робимо color та icon необов'язковими, додаємо labelKey
 export type ConfigOption = {
     id: string;
     label: string;
+    labelKey?: string;
     color?: string;
     icon?: string;
 };
@@ -15,6 +16,7 @@ export type ConfigOption = {
 export type SpecCategory = {
     id: string;
     title: string;
+    titleKey?: string;
     options: ConfigOption[];
 };
 
@@ -30,7 +32,9 @@ export type PartItem = {
     id: string;
     slug: string;
     title: string;
+    titleKey?: string;
     subtitle: string;
+    subtitleKey?: string;
     price: string;
     image: string;
     inStock: boolean;
@@ -61,7 +65,7 @@ export type CartItem = {
         frameLabel: string;
         plasticLabel: string;
         tiresLabel: string;
-        specs?: string; // <--- Ось цей рядок вирішує помилку TS2353
+        specs?: string;
     };
     stats: {
         weight: string;
